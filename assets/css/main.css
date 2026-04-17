@@ -2754,9 +2754,9 @@ label {
 .footer-section-2 .footer-bottom .footer-bottom-layout .footer-bottom-menu ul li a {
   color: var(--theme-color-3);
 }
-.footer-section-2 .footer-bottom .footer-bottom-layout .footer-bottom-menu ul li a:hover {
+/* .footer-section-2 .footer-bottom .footer-bottom-layout .footer-bottom-menu ul li a:hover {
   color: var(--white-color);
-}
+} */
 .footer-section-2 .footer-bottom .footer-bottom-layout .footer-bottom-menu ul li:before {
   width: 0;
   margin: 0;
@@ -10506,6 +10506,9 @@ label {
   background-color: var(--white-color);
   border-radius: 10px;
   height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .what-we-do-section-2 .we-do-card:hover .card-content i {
   color: var(--theme-color-3);
@@ -10555,9 +10558,9 @@ label {
   display: flex;
 }
 .what-we-do-section-2 .we-do-card {
-  width: 100%;
+  /* width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; */
 }
 .what-we-do-section-2 .we-do-card .card-content {
   min-height: 170px;

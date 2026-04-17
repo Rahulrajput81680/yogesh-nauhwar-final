@@ -628,8 +628,8 @@ return array (
           ),
           2 => 
           array (
-            'hi' => 'शिकायत और सहायता शिविर',
-            'en' => 'Grievance & Aid Camps',
+            'hi' => 'जन शिकायत एवं सहायता शिविर',
+            'en' => 'Public Grievance & Support Camps',
           ),
           3 => 
           array (
