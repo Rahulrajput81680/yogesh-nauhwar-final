@@ -334,7 +334,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 								<i class="fa-light fa-location-dot"></i>
 							</div>
 							<div class="service-content">
-								<p>2972 Westheimer Rd. Santa Ana,<br> Illinois 85486 </p>
+								<p>1/100, Radha Puram State, Mathura<br> </p>
 							</div>
 							<!-- <div class="i-shape">
 							<i class="fa-light fa-location-dot"></i>
@@ -349,8 +349,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 								<i class="fa-light fa-phone-volume"></i>
 							</div>
 							<div class="service-content">
-								<p>+02 (54) 669 - 2589 <br>
-									+00 (307) 555 - 0133 </p>
+								<p>+91 7456982962</p>
 							</div>
 							<!-- <div class="i-shape">
 							<i class="fa-light fa-phone-volume"></i>
@@ -365,8 +364,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 								<i class="fa-light fa-envelope"></i>
 							</div>
 							<div class="service-content">
-								<p>bizcase.info@example.com
-									support@example.com</p>
+								<p>vidhayakyogeshnauhwar@gmail.com</p>
 							</div>
 							<!-- <div class="i-shape">
 							<i class="fa-light fa-envelope"></i>
