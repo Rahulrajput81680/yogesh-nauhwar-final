@@ -17,7 +17,7 @@ $settings = [
   'smtp_port' => (string) get_admin_setting('smtp_port', (string) (defined('MAIL_SMTP_PORT') ? (int) MAIL_SMTP_PORT : 587)),
   'smtp_user' => (string) get_admin_setting('smtp_user', defined('MAIL_SMTP_USER') ? MAIL_SMTP_USER : ''),
   'smtp_pass' => (string) get_admin_setting('smtp_pass', ''),
-  'smtp_encryption' => (string) get_admin_setting('smtp_encryption', 'tls'),
+  'smtp_encryption' => (string) get_admin_setting('smtp_encryption', defined('MAIL_SMTP_ENCRYPTION') ? MAIL_SMTP_ENCRYPTION : 'none'),
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

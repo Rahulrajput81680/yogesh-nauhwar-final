@@ -49,10 +49,11 @@ define('MIN_PASSWORD_LENGTH', 8);
 // Mail settings (localhost-safe defaults)
 define('MAIL_FROM_NAME', getenv('MAIL_FROM_NAME') ?: PROJECT_NAME);
 define('MAIL_FROM_ADDRESS', getenv('MAIL_FROM_ADDRESS') ?: '');
-define('MAIL_SMTP_HOST', getenv('MAIL_SMTP_HOST') ?: '');
-define('MAIL_SMTP_PORT', 587);
-define('MAIL_SMTP_USER', getenv('MAIL_SMTP_USER') ?: '');
-define('MAIL_SMTP_PASS', getenv('MAIL_SMTP_PASS') ?: '');
+define('MAIL_SMTP_HOST', getenv('MAIL_SMTP_HOST') ?: 'sandbox.smtp.mailtrap.io');
+define('MAIL_SMTP_PORT', (int) (getenv('MAIL_SMTP_PORT') ?: 2525));
+define('MAIL_SMTP_USER', getenv('MAIL_SMTP_USER') ?: '120b154f30d18f');
+define('MAIL_SMTP_PASS', getenv('MAIL_SMTP_PASS') ?: '793e5ec90f9768');
+define('MAIL_SMTP_ENCRYPTION', getenv('MAIL_SMTP_ENCRYPTION') ?: 'none');
 
 date_default_timezone_set('UTC');
 

@@ -58,7 +58,7 @@ function ensure_password_reset_table($pdo)
 function create_password_reset_request($pdo, $email)
 {
   try {
-    $genericSuccessMessage = 'If your email is registered, you will receive a password reset link.';
+    $genericSuccessMessage = 'If your email is registered with us, we will send you a password reset link on mail.';
 
     ensure_password_reset_table($pdo);
     // Check rate limiting first
