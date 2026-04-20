@@ -915,7 +915,7 @@ $contentList = static function (string $path) use ($lang): array {
 						<div class="common-subtitle style-color-2" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
 							<img alt="icon-2" src="assets/img/icons/wheat.png" class="wheat-icon"> <span><?php echo frontend_escape($contentText('home.mediaCoverage.sectionSubtitle')); ?></span>
 						</div>
-						<div class="common-title style-color-light text-start m-b-0" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+						<div class="common-title media-coverage style-color-light text-start m-b-0" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
 							<h2><?php echo $contentText('home.mediaCoverage.sectionTitle'); ?></h2>
 						</div>
 					</div>

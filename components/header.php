@@ -152,25 +152,25 @@ $switchUrl .= '?' . http_build_query($query);
 				<p>MLC | Public Service | Development Work</p>
 			</div> -->
 			<div class="off-canvas-contact">
-				<a class="off-canvas-contact-item" href="tel:+70264566579">
+				<a class="off-canvas-contact-item" href="tel:+917456982962">
 					<span class="icon"><i class="fa-solid fa-phone"></i></span>
 					<span class="text">
 						<h6>Call</h6>
-						<p>+70 264 566 579</p>
+						<p>+91 7456982962</p>
 					</span>
 				</a>
-				<a class="off-canvas-contact-item" href="mailto:yogeshnauhwar@gmail.com">
+				<a class="off-canvas-contact-item" href="mailto:vidhayakyogeshnauhwar@gmail.com">
 					<span class="icon"><i class="fa-solid fa-envelope"></i></span>
 					<span class="text">
 						<h6>Email</h6>
-						<p>yogeshnauhwar@gmail.com</p>
+						<p>vidhayakyogeshnauhwar@gmail.com</p>
 					</span>
 				</a>
 				<div class="off-canvas-contact-item">
 					<span class="icon"><i class="fa-solid fa-location-dot"></i></span>
 					<span class="text">
 						<h6>Address</h6>
-						<p>Mant, Mathura, Uttar Pradesh</p>
+						<p>1/100, Radha Puram State, Mathura</p>
 					</span>
 				</div>
 			</div>
