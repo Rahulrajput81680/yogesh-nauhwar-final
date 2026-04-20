@@ -129,7 +129,7 @@ $contentList = static function (string $path) use ($lang): array {
 											<p><?php echo frontend_escape($contentText('home.hero.slide3.text')); ?></p>
 										</div>
 										<div class="join-us" data-animation="animate__fadeInUp" data-delay="0.6s">
-											<a class='e-primary-btn has-icon' href='donations.html'>
+											<a class='e-primary-btn has-icon' href='about.php'>
 												<?php echo frontend_escape($contentText('home.hero.slide3.cta')); ?>
 												<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span></span>
 											</a>

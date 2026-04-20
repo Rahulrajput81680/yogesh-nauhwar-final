@@ -42,9 +42,37 @@ The blog editor can save HTML from Summernote, including images, so `blogs.conte
 
 That fixes the `Data too long for column 'content'` error when you add image-heavy blog content.
 
+If your database already exists, you do not need to rebuild everything. The admin bootstrap runs the same upgrade automatically when you open any admin page. If you want to do it manually, run this once in MySQL:
+
+```sql
+ALTER TABLE blogs MODIFY content LONGTEXT NOT NULL;
+```
+
+The `import-db.php` file is only for fresh local setup or a full re-import. You can delete it after setup if you do not want a public import script on the server, but keep a local copy if you may need to rebuild the database later.
+
 ## Media Coverage Image Scale Fix
 
 The zoom effect on the active media coverage card was removed in [assets/css/main.css](assets/css/main.css). The active slide now keeps the normal image size instead of scaling up.
+
+## Why `schema_bootstrap.php` Exists
+
+[admin/core/schema_bootstrap.php](admin/core/schema_bootstrap.php) is a safety net. It makes sure important tables and columns exist even if the database was imported partially or an older schema is still present.
+
+That file is why the admin panel can repair missing pieces without asking you to re-import the whole database every time.
+
+## Why `media` And `our_work` Tables Do Not Appear
+
+Your app uses one image table called `gallery`.
+
+The sections are separated by the `display_section` column:
+
+- `gallery`
+- `media_coverage`
+- `our_work`
+
+So `media` and `our_work` are not missing. They are just logical sections inside the `gallery` table, not separate tables in MySQL.
+
+That is why [media-coverage.php](media-coverage.php) and [our-work.php](our-work.php) read from the same table but show different sections.
 
 ## Short File Map
 
