@@ -94,7 +94,7 @@ CREATE TABLE `blogs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
-  `content` text NOT NULL,
+  `content` longtext NOT NULL,
   `thumbnail` varchar(255) DEFAULT NULL,
   `category` varchar(100) DEFAULT NULL,
   `status` enum('draft','published') DEFAULT 'draft',

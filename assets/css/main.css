@@ -9961,7 +9961,7 @@ label {
   height: 100%;
 }
 .completed-project-slider-active .swiper-slide-active .project-card .thumb a img {
-  transform: scale(1.1);
+  transform: none !important;
 }
 .completed-project-slider-active .swiper-slide-active .project-card .thumb .content {
   padding-bottom: 100px;

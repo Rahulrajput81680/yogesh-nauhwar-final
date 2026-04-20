@@ -368,7 +368,13 @@ function send_password_reset_email($user, $reset_link, $expires_at)
 {
   $to = $user['email'];
   $subject = PROJECT_NAME . ' - Password Reset Instructions';
-  $expiry_time = date('F j, Y \a\t g:i A', strtotime($expires_at));
+  $expiryDateTime = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $expires_at, new DateTimeZone('UTC'));
+  if ($expiryDateTime instanceof DateTimeImmutable) {
+    $expiryTimeZone = new DateTimeZone('Asia/Kolkata');
+    $expiry_time = $expiryDateTime->setTimezone($expiryTimeZone)->format('F j, Y \a\t g:i A');
+  } else {
+    $expiry_time = date('F j, Y \a\t g:i A', strtotime($expires_at));
+  }
   $current_year = date('Y');
   $recipient_name = htmlspecialchars($user['full_name'] ?? $user['username'], ENT_QUOTES, 'UTF-8');
   $reset_link_safe = htmlspecialchars($reset_link, ENT_QUOTES, 'UTF-8');

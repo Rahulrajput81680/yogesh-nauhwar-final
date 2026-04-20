@@ -16,9 +16,11 @@ $settings = [
   'smtp_host' => (string) get_admin_setting('smtp_host', defined('MAIL_SMTP_HOST') ? MAIL_SMTP_HOST : ''),
   'smtp_port' => (string) get_admin_setting('smtp_port', (string) (defined('MAIL_SMTP_PORT') ? (int) MAIL_SMTP_PORT : 587)),
   'smtp_user' => (string) get_admin_setting('smtp_user', defined('MAIL_SMTP_USER') ? MAIL_SMTP_USER : ''),
-  'smtp_pass' => (string) get_admin_setting('smtp_pass', ''),
+  'smtp_pass' => '',
   'smtp_encryption' => (string) get_admin_setting('smtp_encryption', defined('MAIL_SMTP_ENCRYPTION') ? MAIL_SMTP_ENCRYPTION : 'none'),
 ];
+
+$existingSmtpPassword = (string) get_admin_setting('smtp_pass', '');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $csrfToken = $_POST['csrf_token'] ?? '';
@@ -31,7 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $settings['smtp_host'] = trim((string) ($_POST['smtp_host'] ?? ''));
     $settings['smtp_port'] = trim((string) ($_POST['smtp_port'] ?? '587'));
     $settings['smtp_user'] = trim((string) ($_POST['smtp_user'] ?? ''));
-    $settings['smtp_pass'] = (string) ($_POST['smtp_pass'] ?? '');
+    $submittedPassword = trim((string) ($_POST['smtp_pass'] ?? ''));
+    $settings['smtp_pass'] = $submittedPassword !== '' ? $submittedPassword : $existingSmtpPassword;
     $settings['smtp_encryption'] = strtolower(trim((string) ($_POST['smtp_encryption'] ?? 'tls')));
 
     if ($settings['smtp_from_name'] === '') {
@@ -144,7 +147,7 @@ include __DIR__ . '/includes/header.php';
             </div>
             <div class="col-md-6 mb-3">
               <label for="smtp_pass" class="form-label">SMTP Password / App Password</label>
-              <input type="password" class="form-control" id="smtp_pass" name="smtp_pass" value="<?php echo escape($settings['smtp_pass']); ?>">
+              <input type="password" class="form-control" id="smtp_pass" name="smtp_pass" value="" placeholder="Leave blank to keep current password">
               <small class="text-muted">For Gmail, use an App Password (not your account password).</small>
             </div>
           </div>
