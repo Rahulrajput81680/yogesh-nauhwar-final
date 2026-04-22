@@ -15,11 +15,17 @@ $contentList = static function (string $path) use ($lang): array {
 };
 
 $homeMediaCoverage = [];
+$homeRecentEvents = [];
+$homeOurWorkItems = [];
 try {
 	$pdo = frontend_db();
 	$homeMediaCoverage = frontend_gallery_items($pdo, 'media_coverage', 6);
+	$homeRecentEvents = frontend_recent_events_items($pdo, 5);
+	$homeOurWorkItems = frontend_gallery_items($pdo, 'our_work', 6);
 } catch (Throwable $e) {
 	$homeMediaCoverage = [];
+	$homeRecentEvents = [];
+	$homeOurWorkItems = [];
 }
 ?>
 <!DOCTYPE html>
@@ -549,48 +555,16 @@ try {
 					<div class="service-slider-active" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
 						<div class="swiper">
 							<div class="swiper-wrapper">
-								<div class="swiper-slide">
-									<div class="service-card-3">
-										<div class="thumb">
-											<a><img alt="thumb" src="assets/img/home/work/work1.webp"></a>
+								<?php foreach ($homeOurWorkItems as $item): ?>
+									<?php $workThumb = !empty($item['image']) ? frontend_upload_url($item['image']) : 'assets/img/home/work/work1.webp'; ?>
+									<div class="swiper-slide">
+										<div class="service-card-3">
+											<div class="thumb">
+												<a><img alt="thumb" src="<?php echo frontend_escape($workThumb); ?>"></a>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="service-card-3">
-										<div class="thumb">
-											<a><img alt="thumb" src="assets/img/home/work/work2.webp"></a>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="service-card-3">
-										<div class="thumb">
-											<a><img alt="thumb" src="assets/img/home/work/work3.webp"></a>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="service-card-3">
-										<div class="thumb">
-											<a><img alt="thumb" src="assets/img/home/work/work4.webp"></a>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="service-card-3">
-										<div class="thumb">
-											<a><img alt="thumb" src="assets/img/home/work/work5.webp"></a>
-										</div>
-									</div>
-								</div>
-								<div class="swiper-slide">
-									<div class="service-card-3">
-										<div class="thumb">
-											<a><img alt="thumb" src="assets/img/home/work/work6.webp"></a>
-										</div>
-									</div>
-								</div>
+								<?php endforeach; ?>
 							</div>
 						</div>
 						<div class="service-pagination-wrap">
@@ -676,7 +650,7 @@ try {
 
 
 	<!-- latest-work-section start -->
-	<section class="latest-work-section mt-0 p-t-100 p-b-100 p-t-xs-80 p-b-xs-80">
+	<section class="latest-work-section mt-0 p-t-50 p-b-100 p-t-xs-80 p-b-xs-80">
 		<div class="container">
 			<div class="text-center m-b-60 m-b-xs-50">
 				<div class="common-subtitle" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
@@ -688,89 +662,43 @@ try {
 			</div>
 			<div class="row" data-aos="fade-up" data-aos-delay="600" data-aos-duration="1000">
 				<div class="col-xl-12">
-					<div class="work-card">
-						<div class="work-card-thumb"><svg class="clippy">
-							<defs>
-								<clippath id="w-mask-image">
-									<path d="M94.208 5.66961L19.4714 50.3601C7.39412 57.582 0 70.6187 0 84.6905V542.872H499.787V138.759C499.787 124.827 492.537 111.898 480.65 104.631L319.1 5.87191C312.818 2.0319 305.599 0 298.236 0H114.737C107.507 0 100.413 1.95932 94.208 5.66961Z" fill="#FFE175"></path>
-								</clippath>
-								<clippath id="w-mask-shape">
-									<path d="M94.208 5.66961L19.4714 50.3601C7.39412 57.582 0 70.6187 0 84.6905V542.872H499.787V138.759C499.787 124.827 492.537 111.898 480.65 104.631L319.1 5.87191C312.818 2.0319 305.599 0 298.236 0H114.737C107.507 0 100.413 1.95932 94.208 5.66961Z" fill="#FFE175"></path>
-								</clippath>
-							</defs></svg> <img alt="thumb" src="assets/img/home/events/event1.webp"></div>
-						<div class="work-card-content">
-							<p><?php echo frontend_escape($contentText('home.events.items.0.tag')); ?></p>
-							<h3><?php echo frontend_escape($contentText('home.events.items.0.title')); ?></h3>
-							<div class="annual-donation-wrap">
-								<div class="blog-btn">
-									<a class='e-primary-btn has-icon is-hover-white' href='events.php'><?php echo frontend_escape($contentText('home.events.cta')); ?> <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
+					<?php foreach ($homeRecentEvents as $index => $event): ?>
+						<?php
+						$eventThumb = !empty($event['image']) ? frontend_upload_url($event['image']) : 'assets/img/home/events/event1.webp';
+						$eventTitle = $event['title'] ?: 'Event';
+						$eventCategory = $event['category'] ?: 'Event';
+						$eventNumber = str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT);
+						?>
+						<div class="work-card">
+							<div class="work-card-thumb">
+								<?php if ($index === 0): ?>
+									<svg class="clippy">
+										<defs>
+											<clippath id="w-mask-image">
+												<path d="M94.208 5.66961L19.4714 50.3601C7.39412 57.582 0 70.6187 0 84.6905V542.872H499.787V138.759C499.787 124.827 492.537 111.898 480.65 104.631L319.1 5.87191C312.818 2.0319 305.599 0 298.236 0H114.737C107.507 0 100.413 1.95932 94.208 5.66961Z" fill="#FFE175"></path>
+											</clippath>
+											<clippath id="w-mask-shape">
+												<path d="M94.208 5.66961L19.4714 50.3601C7.39412 57.582 0 70.6187 0 84.6905V542.872H499.787V138.759C499.787 124.827 492.537 111.898 480.65 104.631L319.1 5.87191C312.818 2.0319 305.599 0 298.236 0H114.737C107.507 0 100.413 1.95932 94.208 5.66961Z" fill="#FFE175"></path>
+											</clippath>
+										</defs>
+									</svg>
+								<?php endif; ?>
+								<img alt="<?php echo frontend_escape($eventTitle); ?>" src="<?php echo frontend_escape($eventThumb); ?>">
+							</div>
+							<div class="work-card-content">
+								<p><?php echo frontend_escape($eventCategory); ?></p>
+								<h3><?php echo frontend_escape($eventTitle); ?></h3>
+								<div class="annual-donation-wrap">
+									<div class="blog-btn">
+										<a class='e-primary-btn has-icon is-hover-white' href='events.php'><?php echo frontend_escape($contentText('home.events.cta')); ?> <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="card-number">
-							<h1>01</h1>
-						</div>
-					</div>
-					<div class="work-card">
-						<div class="work-card-thumb"><img alt="thumb" src="assets/img/home/events/event2.webp"></div>
-						<div class="work-card-content">
-							<p><?php echo frontend_escape($contentText('home.events.items.1.tag')); ?></p>
-							<h3><?php echo frontend_escape($contentText('home.events.items.1.title')); ?></h3>
-							<div class="annual-donation-wrap">
-								<div class="blog-btn">
-									<a class='e-primary-btn has-icon is-hover-white' href='events.php'><?php echo frontend_escape($contentText('home.events.cta')); ?> <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
-								</div>
+							<div class="card-number">
+								<h1><?php echo frontend_escape($eventNumber); ?></h1>
 							</div>
 						</div>
-						<div class="card-number">
-							<h1>02</h1>
-						</div>
-					</div>
-					<div class="work-card">
-						<div class="work-card-thumb"><img alt="thumb" src="assets/img/home/events/event8.webp"></div>
-						<div class="work-card-content">
-							<p><?php echo frontend_escape($contentText('home.events.items.2.tag')); ?></p>
-							<h3><?php echo frontend_escape($contentText('home.events.items.2.title')); ?></h3>
-							<div class="annual-donation-wrap">
-								<div class="blog-btn">
-									<a class='e-primary-btn has-icon is-hover-white' href='events.php'><?php echo frontend_escape($contentText('home.events.cta')); ?> <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
-								</div>
-							</div>
-						</div>
-						<div class="card-number">
-							<h1>03</h1>
-						</div>
-					</div>
-					<div class="work-card">
-						<div class="work-card-thumb"><img alt="thumb" src="assets/img/home/events/event4.webp"></div>
-						<div class="work-card-content">
-							<p><?php echo frontend_escape($contentText('home.events.items.3.tag')); ?></p>
-							<h3><?php echo frontend_escape($contentText('home.events.items.3.title')); ?></h3>
-							<div class="annual-donation-wrap">
-								<div class="blog-btn">
-									<a class='e-primary-btn has-icon is-hover-white' href='events.php'><?php echo frontend_escape($contentText('home.events.cta')); ?> <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
-								</div>
-							</div>
-						</div>
-						<div class="card-number">
-							<h1>04</h1>
-						</div>
-					</div>
-					<div class="work-card">
-						<div class="work-card-thumb"><img alt="thumb" src="assets/img/home/events/event7.webp"></div>
-						<div class="work-card-content">
-							<p><?php echo frontend_escape($contentText('home.events.items.4.tag')); ?></p>
-							<h3><?php echo frontend_escape($contentText('home.events.items.4.title')); ?></h3>
-							<div class="annual-donation-wrap">
-								<div class="blog-btn">
-									<a class='e-primary-btn has-icon is-hover-white' href='events.php'><?php echo frontend_escape($contentText('home.events.cta')); ?> <span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i> <i class="fa-regular fa-arrow-right"></i></span></span></a>
-								</div>
-							</div>
-						</div>
-						<div class="card-number">
-							<h1>05</h1>
-						</div>
-					</div>
+					<?php endforeach; ?>
 				</div>
 			</div>
 		</div>
@@ -940,96 +868,20 @@ try {
 			<div class="completed-project-slider-active" data-aos="fade-up" data-aos-delay="800" data-aos-duration="1000">
 				<div class="swiper">
 					<div class="swiper-wrapper">
-<<<<<<< HEAD
-						<?php foreach ($homeMediaCoverage as $index => $item): ?>
+						<?php foreach ($homeMediaCoverage as $item): ?>
 							<?php
 							$thumb = !empty($item['image']) ? frontend_upload_url($item['image']) : 'assets/img/home/media-coverage/news7.webp';
-							$mediaLabel = str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT);
 							$altText = $item['title'] ?: ($item['category'] ?: 'Media coverage image');
 							?>
 							<div class="swiper-slide">
 								<div class="project-card">
 									<div class="thumb">
 										<a href='media-coverage.php'><img alt="<?php echo frontend_escape($altText); ?>" src="<?php echo frontend_escape($thumb); ?>"></a>
-										<div class="number">
-											<a href='media-coverage.php'>No - <?php echo $mediaLabel; ?></a>
-										</div>
 									</div>
 								</div>
 							</div>
 						<?php endforeach; ?>
-=======
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href='media-coverage.php'><img alt="thumb-11" src="assets/img/home/media-coverage/news7.webp"></a>
-									<!-- <div class="number">
-										<a href='media-coverage.php'>No - 01</a>
-									</div> -->
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news4.webp"></a>
-									<!-- <div class="number">
-										<a href='media-coverage.php'>No - 02</a>
-									</div> -->
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href='media-coverage.php'><img alt="thumb-13" src="assets/img/home/media-coverage/news5.webp"></a>
-									<!-- <div class="number">
-										<a href='media-coverage.php'>No - 03</a>
-									</div> -->
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news6.webp"></a>
-									<!-- <div class="number">
-										<a href='media-coverage.php'>No - 04</a>
-									</div> -->
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news10.webp"></a>
-									<!-- <div class="number">
-										<a href='media-coverage.php'>No - 05</a>
-									</div> -->
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news12.webp"></a>
-									<!-- <div class="number">
-										<a href='media-coverage.php'>No - 06</a>
-									</div> -->
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news11.webp"></a>
-									<!-- <div class="number">
-										<a href='media-coverage.php'>No - 06</a>
-									</div> -->
-								</div>
-							</div>
-						</div>
->>>>>>> 0da86eaac84c65a939f0388bdc15fa55a888f53f
+						
 					</div>
 				</div>
 				<div class="container">

@@ -3194,21 +3194,21 @@ label {
 }
 
 .inner-page .breadcrumb-section.breadcrumb-section-events {
-  background-image: url("../img/breadcrumb/events2.jpg");
+  background-image: url("../img/breadcrumb/events2.webp");
 }
 
 .inner-page .breadcrumb-section.breadcrumb-section-media {
-  background-image: url("../img/breadcrumb/media3.jpg");
+  background-image: url("../img/breadcrumb/media3.webp");
 }
 
 .inner-page .breadcrumb-section.breadcrumb-section-our-work {
-  background-image: url("../img/breadcrumb/our-work3.jpg");
+  background-image: url("../img/breadcrumb/our-work3.webp");
 }
 .inner-page .breadcrumb-section.breadcrumb-section-gallery {
-  background-image: url("../img/breadcrumb/gallery.jpg");
+  background-image: url("../img/breadcrumb/gallery.webp");
 }
 .inner-page .breadcrumb-section.breadcrumb-section-blogs {
-  background-image: url("../img/breadcrumb/blogs.jpg");
+  background-image: url("../img/breadcrumb/blogs.webp");
 }
 
 .inner-page .breadcrumb-section:before {
@@ -9930,6 +9930,8 @@ label {
 .equal-height-card-row .project-card {
   width: 100%;
   height: 100%;
+  border: 1px solid rgb(181, 214, 198);
+  padding: 5px;
 }
 
 .equal-height-card-row .project-card .thumb,
@@ -13809,9 +13811,9 @@ label {
   .services-section .row {
     row-gap: 20px;
   }
-  .services-section .row > [class*="col-"] {
+  /* .services-section .row > [class*="col-"] {
     display: flex;
-  }
+  } */
   .service-card {
     width: 100%;
     padding: 24px 20px;
@@ -19570,4 +19572,3 @@ label {
   /* padding-left: 10px; */
   /* padding-right: 20px; */
 }
-

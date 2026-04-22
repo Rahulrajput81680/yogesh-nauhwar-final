@@ -128,9 +128,9 @@ include dirname(dirname(__DIR__)) . '/includes/header.php';
                 <td><img src="<?php echo UPLOAD_URL . '/' . escape($image['image']); ?>" alt="Thumbnail" class="thumbnail-image"></td>
                 <td><strong><?php echo escape($image['title']); ?></strong><br><small class="text-muted"><?php echo escape($image['image']); ?></small></td>
                 <td><?php echo $image['category'] ? '<span class="badge bg-info">' . escape($image['category']) . '</span>' : '<span class="text-muted">-</span>'; ?></td>
+                <td><?php echo format_date($image['publish_date'] ?: $image['created_at']); ?></td>
                 <td><?php echo get_status_badge($image['status']); ?></td>
                 <td><?php echo escape($image['uploader'] ?? 'N/A'); ?></td>
-                <td><?php echo format_date($image['created_at']); ?></td>
                 <td class="action-buttons">
                   <?php if (has_permission('our_work_edit')): ?>
                     <a href="<?php echo ADMIN_URL; ?>/modules/our-work/edit.php?id=<?php echo $image['id']; ?>" class="btn btn-sm" title="Edit"><i class="bi bi-pencil"></i></a>
@@ -142,7 +142,6 @@ include dirname(dirname(__DIR__)) . '/includes/header.php';
               </tr>
             <?php endforeach; ?>
           </tbody>
-                <td><?php echo format_date($image['publish_date'] ?: $image['created_at']); ?></td>
         </table>
       </div>
     <?php endif; ?>

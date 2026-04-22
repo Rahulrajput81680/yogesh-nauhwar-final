@@ -393,8 +393,12 @@ if (!function_exists('frontend_gallery_items')) {
       $params[] = $section;
     }
 
-    if ($dateFilter === 'last_2_months') {
-      $where .= " AND DATE({$dateExpression}) >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)";
+    if ($dateFilter === 'latest') {
+      $where .= " AND DATE({$dateExpression}) >= DATE_SUB(CURDATE(), INTERVAL 15 DAY)";
+    } elseif ($dateFilter === 'last_2_months') {
+      $where .= " AND DATE({$dateExpression}) < DATE_SUB(CURDATE(), INTERVAL 15 DAY) AND DATE({$dateExpression}) >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)";
+    } elseif ($dateFilter === 'oldest') {
+      $where .= " AND DATE({$dateExpression}) < DATE_SUB(CURDATE(), INTERVAL 2 MONTH)";
     }
 
     $orderBy = $sort === 'oldest'
@@ -428,13 +432,40 @@ if (!function_exists('frontend_gallery_count')) {
       $params[] = $section;
     }
 
-    if ($dateFilter === 'last_2_months') {
-      $where .= " AND DATE({$dateExpression}) >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)";
+    if ($dateFilter === 'latest') {
+      $where .= " AND DATE({$dateExpression}) >= DATE_SUB(CURDATE(), INTERVAL 15 DAY)";
+    } elseif ($dateFilter === 'last_2_months') {
+      $where .= " AND DATE({$dateExpression}) < DATE_SUB(CURDATE(), INTERVAL 15 DAY) AND DATE({$dateExpression}) >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)";
+    } elseif ($dateFilter === 'oldest') {
+      $where .= " AND DATE({$dateExpression}) < DATE_SUB(CURDATE(), INTERVAL 2 MONTH)";
     }
 
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM gallery WHERE {$where}");
     $stmt->execute($params);
     return (int) $stmt->fetchColumn();
+  }
+}
+
+if (!function_exists('frontend_event_date_expression')) {
+  function frontend_event_date_expression(PDO $pdo): string
+  {
+    if (frontend_has_column($pdo, 'events', 'event_date')) {
+      return 'COALESCE(event_date, created_at)';
+    }
+
+    return 'created_at';
+  }
+}
+
+if (!function_exists('frontend_recent_events_items')) {
+  function frontend_recent_events_items(PDO $pdo, int $limit = 5): array
+  {
+    $dateExpression = frontend_event_date_expression($pdo);
+    $sql = "SELECT title, image, category FROM events WHERE status = 'active' ORDER BY {$dateExpression} DESC, id DESC LIMIT " . max(1, (int) $limit);
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 }
 

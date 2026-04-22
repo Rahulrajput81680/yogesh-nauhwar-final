@@ -49,7 +49,7 @@ $switchUrl .= '?' . http_build_query($query);
 						<div class="header-left-3">
 							<div class="logo-wrap">
 								<a href='index.php'>
-									<img src="assets/img/logo/yogesh-logo-white.png" alt="logo"/>
+									<img src="assets/img/logo/pagdi-logo.png" alt="logo"/>
 								</a>
 							</div>
 							<nav class="main-menu-3 d-none d-xl-block">
@@ -118,7 +118,7 @@ $switchUrl .= '?' . http_build_query($query);
 		<div class="off-canvas-head">
 			<div class="off-canvas-logo">
 				<a href='index.php'>
-					<img src="assets/img/logo/yogesh-logo-white.png" alt="logo"/>
+					<img src="assets/img/logo/pagdi-logo.png" alt="logo"/>
 				</a>
 			</div>
 			<div class="off-canvas-menubar-close" data-close="menubar">

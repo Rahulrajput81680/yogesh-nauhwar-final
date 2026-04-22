@@ -21,18 +21,18 @@
 	$page = max(1, (int) ($_GET['page'] ?? 1));
 	$perPage = 9;
 	$offset = ($page - 1) * $perPage;
-	$sortFilter = frontend_sanitize_input($_GET['sort'] ?? 'latest');
-	if (!in_array($sortFilter, ['latest', 'last_2_months', 'oldest'], true)) {
-		$sortFilter = 'latest';
+	$sortFilter = frontend_sanitize_input($_GET['sort'] ?? 'all');
+	if (!in_array($sortFilter, ['all', 'latest', 'last_2_months', 'oldest'], true)) {
+		$sortFilter = 'all';
 	}
 
 	try {
 		$pdo = frontend_db();
-		$total = frontend_gallery_count($pdo, 'media_coverage', ['date_filter' => $sortFilter === 'last_2_months' ? 'last_2_months' : '']);
+		$total = frontend_gallery_count($pdo, 'media_coverage', ['date_filter' => $sortFilter]);
 		$totalPages = max(1, (int) ceil($total / $perPage));
 		$galleryItems = frontend_gallery_items($pdo, 'media_coverage', $perPage, $offset, [
 			'sort' => $sortFilter,
-			'date_filter' => $sortFilter === 'last_2_months' ? 'last_2_months' : '',
+			'date_filter' => $sortFilter,
 		]);
 	} catch (Throwable $e) {
 		$galleryItems = [];
@@ -77,18 +77,13 @@
 					</div>
 				</div>
 				<div class="row justify-content-center m-b-40">
-					<div class="col-xl-5 col-lg-6 col-md-8">
-						<form method="GET" action="" class="d-flex gap-2 align-items-center justify-content-center flex-wrap">
-							<select name="sort" class="form-select">
-								<option value="latest" <?php echo $sortFilter === 'latest' ? 'selected' : ''; ?>>Latest</option>
-								<option value="last_2_months" <?php echo $sortFilter === 'last_2_months' ? 'selected' : ''; ?>>Last 2 Months</option>
-								<option value="oldest" <?php echo $sortFilter === 'oldest' ? 'selected' : ''; ?>>Oldest</option>
-							</select>
-							<button type="submit" class="e-primary-btn has-icon">
-								Apply Filter
-								<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span></span>
-							</button>
-						</form>
+					<div class="col-xl-8 col-lg-8 col-md-8">
+						<div class="event-filter-wrap text-center m-b-0" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500">
+							<a class="event-filter-btn<?php echo $sortFilter === 'all' ? ' active' : ''; ?>" href="media-coverage.php">All Media</a>
+							<a class="event-filter-btn<?php echo $sortFilter === 'latest' ? ' active' : ''; ?>" href="media-coverage.php?sort=latest">Latest</a>
+							<a class="event-filter-btn<?php echo $sortFilter === 'last_2_months' ? ' active' : ''; ?>" href="media-coverage.php?sort=last_2_months">Last 2 Months</a>
+							<a class="event-filter-btn<?php echo $sortFilter === 'oldest' ? ' active' : ''; ?>" href="media-coverage.php?sort=oldest">Oldest</a>
+						</div>
 					</div>
 				</div>
 			</div>

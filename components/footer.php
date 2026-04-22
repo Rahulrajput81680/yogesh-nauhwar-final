@@ -15,7 +15,7 @@ $footerContentText = (isset($contentText) && is_callable($contentText))
 					<div class="about-widget">
 						<div class="footer-logo">
 							<a href='index.html'>
-								<img src="assets/img/logo/yogesh-logo-white.png" alt="logo"/>
+								<img src="assets/img/logo/pagdi-logo.png" alt="logo"/>
 							</a>
 						</div>
 						<div class="text">
