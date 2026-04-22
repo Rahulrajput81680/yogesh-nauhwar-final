@@ -36,11 +36,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
       $errors[] = 'Please select an image to upload.';
     }
+    $publish_date = sanitize_input($_POST['publish_date'] ?? '');
+
+    if ($publish_date === '') {
+      $errors[] = 'Date is required.';
+    }
 
     if (empty($errors)) {
       try {
-        $stmt = $pdo->prepare("INSERT INTO gallery (title, image, category, display_section, status, uploaded_by, created_at) VALUES (?, ?, ?, 'our_work', ?, ?, NOW())");
-        $stmt->execute([$title, $image, $category, $status, $_SESSION['admin_id']]);
+        $stmt = $pdo->prepare("INSERT INTO gallery (title, image, category, publish_date, display_section, status, uploaded_by, created_at) VALUES (?, ?, ?, ?, 'our_work', ?, ?, NOW())");
+        $stmt->execute([$title, $image, $category, $publish_date, $status, $_SESSION['admin_id']]);
 
         $image_id = $pdo->lastInsertId();
         log_activity('create', 'our_work', $image_id, "Uploaded Our Work image: $title");
@@ -88,6 +93,12 @@ include dirname(dirname(__DIR__)) . '/includes/header.php';
           <div class="mb-3">
             <label for="title" class="form-label">Title *</label>
             <input type="text" class="form-control" id="title" name="title" value="<?php echo escape($_POST['title'] ?? ''); ?>" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="publish_date" class="form-label">Date *</label>
+            <input type="date" class="form-control" id="publish_date" name="publish_date"
+              value="<?php echo escape($_POST['publish_date'] ?? ''); ?>" required>
           </div>
 
           <div class="mb-3">

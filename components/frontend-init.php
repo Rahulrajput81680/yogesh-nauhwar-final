@@ -134,6 +134,17 @@ if (!function_exists('frontend_translate')) {
   }
 }
 
+if (!function_exists('frontend_sanitize_input')) {
+  function frontend_sanitize_input($data): string
+  {
+    if (is_array($data)) {
+      return '';
+    }
+
+    return trim(strip_tags((string) $data));
+  }
+}
+
 if (!function_exists('translate')) {
   function translate(string $key, string $fallback = ''): string
   {
@@ -357,18 +368,40 @@ if (!function_exists('frontend_upload_url')) {
   }
 }
 
+if (!function_exists('frontend_gallery_date_expression')) {
+  function frontend_gallery_date_expression(PDO $pdo): string
+  {
+    if (frontend_has_column($pdo, 'gallery', 'publish_date')) {
+      return 'COALESCE(publish_date, created_at)';
+    }
+
+    return 'created_at';
+  }
+}
+
 if (!function_exists('frontend_gallery_items')) {
-  function frontend_gallery_items(PDO $pdo, string $section = 'gallery', int $limit = 0, int $offset = 0): array
+  function frontend_gallery_items(PDO $pdo, string $section = 'gallery', int $limit = 0, int $offset = 0, array $options = []): array
   {
     $where = "status = 'active'";
     $params = [];
+    $dateExpression = frontend_gallery_date_expression($pdo);
+    $sort = $options['sort'] ?? 'latest';
+    $dateFilter = $options['date_filter'] ?? '';
 
     if (frontend_has_column($pdo, 'gallery', 'display_section')) {
       $where .= ' AND display_section = ?';
       $params[] = $section;
     }
 
-    $sql = "SELECT title, image, category FROM gallery WHERE {$where} ORDER BY created_at DESC, id DESC";
+    if ($dateFilter === 'last_2_months') {
+      $where .= " AND DATE({$dateExpression}) >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)";
+    }
+
+    $orderBy = $sort === 'oldest'
+      ? "ORDER BY {$dateExpression} ASC, id ASC"
+      : "ORDER BY {$dateExpression} DESC, id DESC";
+
+    $sql = "SELECT title, image, category, publish_date, created_at FROM gallery WHERE {$where} {$orderBy}";
     if ($limit > 0) {
       $sql .= ' LIMIT ' . (int) $limit;
     }
@@ -383,19 +416,86 @@ if (!function_exists('frontend_gallery_items')) {
 }
 
 if (!function_exists('frontend_gallery_count')) {
-  function frontend_gallery_count(PDO $pdo, string $section = 'gallery'): int
+  function frontend_gallery_count(PDO $pdo, string $section = 'gallery', array $options = []): int
   {
     $where = "status = 'active'";
     $params = [];
+    $dateExpression = frontend_gallery_date_expression($pdo);
+    $dateFilter = $options['date_filter'] ?? '';
 
     if (frontend_has_column($pdo, 'gallery', 'display_section')) {
       $where .= ' AND display_section = ?';
       $params[] = $section;
     }
 
+    if ($dateFilter === 'last_2_months') {
+      $where .= " AND DATE({$dateExpression}) >= DATE_SUB(CURDATE(), INTERVAL 2 MONTH)";
+    }
+
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM gallery WHERE {$where}");
     $stmt->execute($params);
     return (int) $stmt->fetchColumn();
+  }
+}
+
+if (!function_exists('frontend_render_pagination')) {
+  function frontend_render_pagination(int $currentPage, int $totalPages, string $baseUrl, array $queryParams = [], string $pageParam = 'page'): string
+  {
+    if ($totalPages <= 1) {
+      return '';
+    }
+
+    $cleanParams = [];
+    foreach ($queryParams as $key => $value) {
+      if ($value === null || $value === '') {
+        continue;
+      }
+      $cleanParams[$key] = $value;
+    }
+
+    $buildUrl = function (int $pageNumber) use ($baseUrl, $cleanParams, $pageParam): string {
+      $params = $cleanParams;
+      $params[$pageParam] = $pageNumber;
+      $query = http_build_query($params);
+      return $query !== '' ? $baseUrl . '?' . $query : $baseUrl;
+    };
+
+    $html = '<div class="project-pagination"><ul>';
+
+    if ($currentPage > 1) {
+      $html .= '<li class="icon"><a href="' . htmlspecialchars($buildUrl($currentPage - 1), ENT_QUOTES, 'UTF-8') . '"><i class="fa-regular fa-arrow-left"></i></a></li>';
+    }
+
+    $range = 2;
+    for ($i = 1; $i <= $totalPages; $i++) {
+      if ($i === 1 || $i === $totalPages || ($i >= $currentPage - $range && $i <= $currentPage + $range)) {
+        $label = str_pad((string) $i, 2, '0', STR_PAD_LEFT);
+        $html .= '<li class="' . ($i === $currentPage ? 'active' : '') . '"><a href="' . htmlspecialchars($buildUrl($i), ENT_QUOTES, 'UTF-8') . '">' . $label . '</a></li>';
+      } elseif ($i === $currentPage - $range - 1 || $i === $currentPage + $range + 1) {
+        $html .= '<li class="disabled"><span>...</span></li>';
+      }
+    }
+
+    if ($currentPage < $totalPages) {
+      $html .= '<li class="icon"><a href="' . htmlspecialchars($buildUrl($currentPage + 1), ENT_QUOTES, 'UTF-8') . '"><i class="fa-regular fa-arrow-right"></i></a></li>';
+    }
+
+    $html .= '</ul></div>';
+
+    return $html;
+  }
+}
+
+if (!function_exists('frontend_count_records')) {
+  function frontend_count_records(PDO $pdo, string $table, string $where = '1=1', array $params = []): int
+  {
+    try {
+      $stmt = $pdo->prepare("SELECT COUNT(*) FROM {$table} WHERE {$where}");
+      $stmt->execute($params);
+      return (int) $stmt->fetchColumn();
+    } catch (Throwable $e) {
+      return 0;
+    }
   }
 }
 

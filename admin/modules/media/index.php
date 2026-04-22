@@ -42,7 +42,7 @@ $total = count_records('gallery g', $where, $params);
 $totalPages = ceil($total / $perPage);
 
 try {
-  $stmt = $pdo->prepare("SELECT g.*, au.username as uploader FROM gallery g LEFT JOIN admin_users au ON g.uploaded_by = au.id WHERE $where ORDER BY g.created_at DESC LIMIT $perPage OFFSET $offset");
+  $stmt = $pdo->prepare("SELECT g.*, au.username as uploader FROM gallery g LEFT JOIN admin_users au ON g.uploaded_by = au.id WHERE $where ORDER BY COALESCE(g.publish_date, g.created_at) DESC, g.id DESC LIMIT $perPage OFFSET $offset");
   $stmt->execute($params);
   $images = $stmt->fetchAll();
 } catch (PDOException $e) {
@@ -118,9 +118,9 @@ include dirname(dirname(__DIR__)) . '/includes/header.php';
               <th>Image</th>
               <th>Title</th>
               <th>Category</th>
+              <th>Date</th>
               <th>Status</th>
               <th>Uploaded By</th>
-              <th>Created</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -134,9 +134,9 @@ include dirname(dirname(__DIR__)) . '/includes/header.php';
                 <td>
                   <?php echo $image['category'] ? '<span class="badge bg-info">' . escape($image['category']) . '</span>' : '<span class="text-muted">-</span>'; ?>
                 </td>
+                <td><?php echo format_date($image['publish_date'] ?: $image['created_at']); ?></td>
                 <td><?php echo get_status_badge($image['status']); ?></td>
                 <td><?php echo escape($image['uploader'] ?? 'N/A'); ?></td>
-                <td><?php echo format_date($image['created_at']); ?></td>
                 <td class="action-buttons">
                   <?php if (has_permission('media_edit')): ?>
                     <a href="<?php echo ADMIN_URL; ?>/modules/media/edit.php?id=<?php echo $image['id']; ?>"

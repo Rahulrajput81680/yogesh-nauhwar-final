@@ -18,18 +18,31 @@
 
 	<?php
 	$galleryItems = [];
+	$page = max(1, (int) ($_GET['page'] ?? 1));
+	$perPage = 9;
+	$offset = ($page - 1) * $perPage;
+	$sortFilter = frontend_sanitize_input($_GET['sort'] ?? 'latest');
+	if (!in_array($sortFilter, ['latest', 'last_2_months', 'oldest'], true)) {
+		$sortFilter = 'latest';
+	}
 
 	try {
 		$pdo = frontend_db();
-		$galleryItems = frontend_gallery_items($pdo, 'media_coverage');
+		$total = frontend_gallery_count($pdo, 'media_coverage', ['date_filter' => $sortFilter === 'last_2_months' ? 'last_2_months' : '']);
+		$totalPages = max(1, (int) ceil($total / $perPage));
+		$galleryItems = frontend_gallery_items($pdo, 'media_coverage', $perPage, $offset, [
+			'sort' => $sortFilter,
+			'date_filter' => $sortFilter === 'last_2_months' ? 'last_2_months' : '',
+		]);
 	} catch (Throwable $e) {
 		$galleryItems = [];
+		$totalPages = 1;
 	}
 	?>
 
 	<main>
 		<!-- breadcrumb-section start -->
-		<section class="breadcrumb-section">
+		<section class="breadcrumb-section breadcrumb-section-media">
 			<div class="container-fluid">
 				<div class="row g-0">
 					<div class="col-xl-12 col-lg-12">
@@ -63,6 +76,21 @@
 						</div>
 					</div>
 				</div>
+				<div class="row justify-content-center m-b-40">
+					<div class="col-xl-5 col-lg-6 col-md-8">
+						<form method="GET" action="" class="d-flex gap-2 align-items-center justify-content-center flex-wrap">
+							<select name="sort" class="form-select">
+								<option value="latest" <?php echo $sortFilter === 'latest' ? 'selected' : ''; ?>>Latest</option>
+								<option value="last_2_months" <?php echo $sortFilter === 'last_2_months' ? 'selected' : ''; ?>>Last 2 Months</option>
+								<option value="oldest" <?php echo $sortFilter === 'oldest' ? 'selected' : ''; ?>>Oldest</option>
+							</select>
+							<button type="submit" class="e-primary-btn has-icon">
+								Apply Filter
+								<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span></span>
+							</button>
+						</form>
+					</div>
+				</div>
 			</div>
 			<div class="container">
 				<div class="row equal-height-card-row" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
@@ -72,19 +100,31 @@
 						</div>
 					<?php else: ?>
 						<?php foreach ($galleryItems as $item): ?>
+							<?php
+							$thumb = !empty($item['image']) ? frontend_upload_url($item['image']) : 'assets/img/home/media-coverage/news7.webp';
+							$category = $item['category'] ?: 'General';
+							?>
 							<div class="col-xl-4 col-md-6 m-b-30">
 								<div class="project-card style-2 style-service">
 									<div class="thumb">
-										<a href="<?php echo frontend_escape(frontend_upload_url($item['image'])); ?>"
+										<a href="<?php echo frontend_escape($thumb); ?>"
 											data-fancybox="media-coverage-gallery">
 											<img alt="<?php echo frontend_escape($item['title'] ?: 'Media image'); ?>"
-												src="<?php echo frontend_escape(frontend_upload_url($item['image'])); ?>">
+												src="<?php echo frontend_escape($thumb); ?>">
 										</a>
+									</div>
+									<div class="content text-center p-t-20">
+										<span class="badge bg-light text-dark"><?php echo frontend_escape($category); ?></span>
 									</div>
 								</div>
 							</div>
 						<?php endforeach; ?>
 					<?php endif; ?>
+				</div>
+				<div class="row justify-content-center text-center m-t-20">
+					<div class="col-xl-6">
+						<?php echo frontend_render_pagination($page, $totalPages, 'media-coverage.php', ['sort' => $sortFilter]); ?>
+					</div>
 				</div>
 			</div>
 		</section>

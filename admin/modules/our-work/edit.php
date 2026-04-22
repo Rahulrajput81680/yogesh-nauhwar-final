@@ -60,11 +60,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors = array_merge($errors, $uploader->getErrors());
       }
     }
+    $publish_date = sanitize_input($_POST['publish_date'] ?? '');
+
+    if ($publish_date === '') {
+      $errors[] = 'Date is required.';
+    }
 
     if (empty($errors)) {
       try {
-        $stmt = $pdo->prepare("UPDATE gallery SET title = ?, image = ?, category = ?, display_section = 'our_work', status = ? WHERE id = ? AND display_section IN ('our_work', 'our-work')");
-        $stmt->execute([$title, $image, $category, $status, $image_id]);
+        $stmt = $pdo->prepare("UPDATE gallery SET title = ?, image = ?, category = ?, publish_date = ?, display_section = 'our_work', status = ? WHERE id = ? AND display_section IN ('our_work', 'our-work')");
+        $stmt->execute([$title, $image, $category, $publish_date, $status, $image_id]);
 
         log_activity('update', 'our_work', $image_id, "Updated Our Work image: $title");
         set_flash('success', 'Our Work image updated successfully!');
@@ -118,6 +123,12 @@ include dirname(dirname(__DIR__)) . '/includes/header.php';
           <div class="mb-3">
             <label for="title" class="form-label">Title *</label>
             <input type="text" class="form-control" id="title" name="title" value="<?php echo escape($_POST['title'] ?? ''); ?>" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="publish_date" class="form-label">Date *</label>
+            <input type="date" class="form-control" id="publish_date" name="publish_date"
+              value="<?php echo escape($_POST['publish_date'] ?? ($gallery_image['publish_date'] ?? '')); ?>" required>
           </div>
 
           <div class="mb-3">

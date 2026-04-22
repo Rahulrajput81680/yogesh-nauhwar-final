@@ -3173,6 +3173,24 @@ label {
   object-position: 50% 30%;
 }
 
+.inner-page .breadcrumb-section.breadcrumb-section-events {
+  background-image: url("../img/breadcrumb/events2.jpg");
+}
+
+.inner-page .breadcrumb-section.breadcrumb-section-media {
+  background-image: url("../img/breadcrumb/media3.jpg");
+}
+
+.inner-page .breadcrumb-section.breadcrumb-section-our-work {
+  background-image: url("../img/breadcrumb/our-work3.jpg");
+}
+.inner-page .breadcrumb-section.breadcrumb-section-gallery {
+  background-image: url("../img/breadcrumb/gallery.jpg");
+}
+.inner-page .breadcrumb-section.breadcrumb-section-blogs {
+  background-image: url("../img/breadcrumb/blogs.jpg");
+}
+
 .inner-page .breadcrumb-section:before {
   content: "";
   position: absolute;

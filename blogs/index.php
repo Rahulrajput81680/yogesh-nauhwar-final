@@ -20,6 +20,9 @@
 
 	<?php
 	$blogs = [];
+	$page = max(1, (int) ($_GET['page'] ?? 1));
+	$perPage = 9;
+	$offset = ($page - 1) * $perPage;
 
 	try {
 		$pdo = frontend_db();
@@ -29,16 +32,21 @@
 			$where .= ' AND deleted_at IS NULL';
 		}
 
-		$stmt = $pdo->query("SELECT id, title, slug, thumbnail, category, created_at FROM blogs WHERE {$where} ORDER BY created_at DESC");
+		$total = frontend_count_records($pdo, 'blogs', $where, []);
+		$totalPages = max(1, (int) ceil($total / $perPage));
+
+		$stmt = $pdo->prepare("SELECT id, title, slug, thumbnail, category, created_at FROM blogs WHERE {$where} ORDER BY created_at DESC, id DESC LIMIT {$perPage} OFFSET {$offset}");
+		$stmt->execute();
 		$blogs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	} catch (Throwable $e) {
 		$blogs = [];
+		$totalPages = 1;
 	}
 	?>
 
 	<main>
 		<!-- breadcrumb-section start -->
-		<section class="breadcrumb-section">
+		<section class="breadcrumb-section breadcrumb-section-blogs">
 			<div class="container-fluid">
 				<div class="row g-0">
 					<div class="col-xl-12 col-lg-12">
@@ -119,19 +127,12 @@
 						<?php endforeach; ?>
 					<?php endif; ?>
 				</div>
-				<!-- <div class="row justify-content-center text-center m-t-20" data-aos="fade-up" data-aos-duration="1000"
+				<div class="row justify-content-center text-center m-t-20" data-aos="fade-up" data-aos-duration="1000"
 					data-aos-delay="200">
 					<div class="col-xl-6">
-						<div class="project-pagination">
-							<ul>
-								<li class="active"><a href="#">01</a></li>
-								<li><a href="#">02</a></li>
-								<li><a href="#">03</a></li>
-								<li class="icon"><a href="#"><i class="fa-regular fa-arrow-right"></i></a></li>
-							</ul>
-						</div>
+						<?php echo frontend_render_pagination($page, $totalPages, 'blogs/index.php'); ?>
 					</div>
-				</div> -->
+				</div>
 			</div>
 		</section>
 		<!-- volunteer-section start -->

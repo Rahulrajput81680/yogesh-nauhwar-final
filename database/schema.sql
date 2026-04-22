@@ -298,6 +298,7 @@ CREATE TABLE `gallery` (
   `title` varchar(255) NOT NULL,
   `image` varchar(255) NOT NULL,
   `category` varchar(100) DEFAULT NULL,
+  `publish_date` date DEFAULT NULL,
   `display_section` enum('gallery','our_work','media_coverage') NOT NULL DEFAULT 'gallery',
   `status` enum('active','inactive') DEFAULT 'active',
   `uploaded_by` int(11) DEFAULT NULL,
@@ -305,6 +306,7 @@ CREATE TABLE `gallery` (
   PRIMARY KEY (`id`),
   KEY `idx_status` (`status`),
   KEY `idx_category` (`category`),
+  KEY `idx_publish_date` (`publish_date`),
   KEY `idx_display_section` (`display_section`),
   KEY `uploaded_by` (`uploaded_by`),
   CONSTRAINT `gallery_ibfk_1` FOREIGN KEY (`uploaded_by`) REFERENCES `admin_users` (`id`) ON DELETE SET NULL
@@ -317,7 +319,7 @@ CREATE TABLE `gallery` (
 
 LOCK TABLES `gallery` WRITE;
 /*!40000 ALTER TABLE `gallery` DISABLE KEYS */;
-INSERT INTO `gallery` VALUES (1,'campus life','gallery/facilities-breadcrumb_2__1772178691_69a14d035532f.webp','General','gallery','active',1,'2026-02-27 05:27:07'),(2,'hii','gallery/Gemini_Generated_Image_kc9uzqkc9uzqkc9u_1772448396_69a56a8c609e8.jpg','hf','gallery','active',1,'2026-03-02 10:46:38');
+INSERT INTO `gallery` (`id`,`title`,`image`,`category`,`publish_date`,`display_section`,`status`,`uploaded_by`,`created_at`) VALUES (1,'campus life','gallery/facilities-breadcrumb_2__1772178691_69a14d035532f.webp','General','2026-02-27','gallery','active',1,'2026-02-27 05:27:07'),(2,'hii','gallery/Gemini_Generated_Image_kc9uzqkc9uzqkc9u_1772448396_69a56a8c609e8.jpg','hf','2026-03-02','gallery','active',1,'2026-03-02 10:46:38');
 /*!40000 ALTER TABLE `gallery` ENABLE KEYS */;
 UNLOCK TABLES;
 

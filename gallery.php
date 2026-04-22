@@ -17,17 +17,23 @@
 
 	<?php
 	$galleryItems = [];
+	$page = max(1, (int) ($_GET['page'] ?? 1));
+	$perPage = 10;
+	$offset = ($page - 1) * $perPage;
 
 	try {
 		$pdo = frontend_db();
-		$galleryItems = frontend_gallery_items($pdo, 'gallery');
+		$total = frontend_gallery_count($pdo, 'gallery');
+		$totalPages = max(1, (int) ceil($total / $perPage));
+		$galleryItems = frontend_gallery_items($pdo, 'gallery', $perPage, $offset);
 	} catch (Throwable $e) {
 		$galleryItems = [];
+		$totalPages = 1;
 	}
 	?>
 
 	<main>
-		<section class="breadcrumb-section">
+		<section class="breadcrumb-section breadcrumb-section-gallery">
 			<div class="container-fluid">
 				<div class="row g-0">
 					<div class="col-xl-12 col-lg-12">
@@ -73,6 +79,12 @@
 							</a>
 						<?php endforeach; ?>
 					<?php endif; ?>
+				</div>
+
+				<div class="row justify-content-center text-center m-t-20">
+					<div class="col-xl-6">
+						<?php echo frontend_render_pagination($page, $totalPages, 'gallery.php'); ?>
+					</div>
 				</div>
 
 				<!-- <div class="gallery-collage-grid gallery-collage-feature-grid" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">

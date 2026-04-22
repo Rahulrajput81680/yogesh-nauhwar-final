@@ -17,19 +17,31 @@
 
 	<?php
 	$events = [];
+	$page = max(1, (int) ($_GET['page'] ?? 1));
+	$perPage = 9;
+	$offset = ($page - 1) * $perPage;
+	$typeFilter = frontend_sanitize_input($_GET['event_type'] ?? 'all');
+	if (!in_array($typeFilter, ['all', 'upcoming', 'past'], true)) {
+		$typeFilter = 'all';
+	}
 
 	try {
 		$pdo = frontend_db();
-		// Show all published events, not just active status
-		$stmt = $pdo->query("SELECT * FROM events ORDER BY COALESCE(event_date, created_at) DESC, id DESC");
+		$where = "status = 'active'";
+		$params = [];
+		if ($typeFilter !== 'all') {
+			$where .= ' AND event_type = ?';
+			$params[] = $typeFilter;
+		}
+
+		$total = frontend_count_records($pdo, 'events', $where, $params);
+		$totalPages = max(1, (int) ceil($total / $perPage));
+
+		$stmt = $pdo->prepare("SELECT * FROM events WHERE {$where} ORDER BY COALESCE(event_date, created_at) DESC, id DESC LIMIT {$perPage} OFFSET {$offset}");
+		$stmt->execute($params);
 		$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 		foreach ($rows as $row) {
-			// Skip if status is explicitly inactive
-			if (($row['status'] ?? 'active') === 'inactive') {
-				continue;
-			}
-
 			$events[] = [
 				'image' => !empty($row['image']) ? frontend_upload_url($row['image']) : 'assets/img/events/event1.webp',
 				'category' => $row['category'] ?: 'General',
@@ -41,11 +53,12 @@
 	} catch (Throwable $e) {
 		echo '<!-- Events Error: ' . htmlspecialchars($e->getMessage()) . ' -->';
 		$events = [];
+		$totalPages = 1;
 	}
 	?>
 
 	<main>
-		<section class="breadcrumb-section">
+		<section class="breadcrumb-section breadcrumb-section-events">
 			<div class="container-fluid">
 				<div class="row g-0">
 					<div class="col-xl-12 col-lg-12">
@@ -80,9 +93,9 @@
 
 				<div class="event-filter-wrap text-center m-b-40" data-aos="fade-up" data-aos-duration="1000"
 					data-aos-delay="500">
-					<button class="event-filter-btn active" type="button" data-filter="all">All Events</button>
-					<button class="event-filter-btn" type="button" data-filter="upcoming">Upcoming Events</button>
-					<button class="event-filter-btn" type="button" data-filter="past">Past Events</button>
+					<a class="event-filter-btn<?php echo $typeFilter === 'all' ? ' active' : ''; ?>" href="events.php">All Events</a>
+					<a class="event-filter-btn<?php echo $typeFilter === 'upcoming' ? ' active' : ''; ?>" href="events.php?event_type=upcoming">Upcoming Events</a>
+					<a class="event-filter-btn<?php echo $typeFilter === 'past' ? ' active' : ''; ?>" href="events.php?event_type=past">Past Events</a>
 				</div>
 
 				<div class="row" id="eventsGrid" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
@@ -119,7 +132,7 @@
 
 				<div class="row justify-content-center text-center m-t-20">
 					<div class="col-xl-6">
-						<div class="project-pagination" id="eventsPagination"></div>
+						<?php echo frontend_render_pagination($page, $totalPages, 'events.php', ['event_type' => $typeFilter !== 'all' ? $typeFilter : null]); ?>
 					</div>
 				</div>
 			</div>
@@ -128,90 +141,6 @@
 
 	<?php include 'components/footer.php'; ?>
 	<?php include 'components/script.php'; ?>
-
-	<script>
-		(function () {
-			var cards = Array.prototype.slice.call(document.querySelectorAll('.event-card-item'));
-			var filterButtons = Array.prototype.slice.call(document.querySelectorAll('.event-filter-btn'));
-			var paginationWrap = document.getElementById('eventsPagination');
-			var cardsPerPage = 9;
-			var currentFilter = 'all';
-			var currentPage = 1;
-
-			function getFilteredCards() {
-				if (currentFilter === 'all') {
-					return cards;
-				}
-				return cards.filter(function (card) {
-					return card.getAttribute('data-event-type') === currentFilter;
-				});
-			}
-
-			function renderPagination(totalPages) {
-				if (!paginationWrap) {
-					return;
-				}
-				if (totalPages <= 1) {
-					paginationWrap.innerHTML = '';
-					return;
-				}
-
-				var html = '<ul>';
-				for (var i = 1; i <= totalPages; i++) {
-					html += '<li class="' + (i === currentPage ? 'active' : '') + '"><a href="#" data-page="' + i + '">' + (i < 10 ? '0' + i : i) + '</a></li>';
-				}
-				html += '</ul>';
-				paginationWrap.innerHTML = html;
-			}
-
-			function renderCards() {
-				var filtered = getFilteredCards();
-				var totalPages = Math.max(1, Math.ceil(filtered.length / cardsPerPage));
-
-				if (currentPage > totalPages) {
-					currentPage = 1;
-				}
-
-				cards.forEach(function (card) {
-					card.style.display = 'none';
-				});
-
-				var start = (currentPage - 1) * cardsPerPage;
-				var end = start + cardsPerPage;
-				filtered.slice(start, end).forEach(function (card) {
-					card.style.display = '';
-				});
-
-				renderPagination(totalPages);
-			}
-
-			filterButtons.forEach(function (button) {
-				button.addEventListener('click', function () {
-					filterButtons.forEach(function (btn) {
-						btn.classList.remove('active');
-					});
-					button.classList.add('active');
-					currentFilter = button.getAttribute('data-filter') || 'all';
-					currentPage = 1;
-					renderCards();
-				});
-			});
-
-			if (paginationWrap) {
-				paginationWrap.addEventListener('click', function (event) {
-					var pageLink = event.target.closest('a[data-page]');
-					if (!pageLink) {
-						return;
-					}
-					event.preventDefault();
-					currentPage = parseInt(pageLink.getAttribute('data-page'), 10) || 1;
-					renderCards();
-				});
-			}
-
-			renderCards();
-		})();
-	</script>
 </body>
 
 </html>

@@ -42,7 +42,7 @@ $total = count_records('gallery g', $where, $params);
 $totalPages = ceil($total / $perPage);
 
 try {
-  $stmt = $pdo->prepare("SELECT g.*, au.username as uploader FROM gallery g LEFT JOIN admin_users au ON g.uploaded_by = au.id WHERE $where ORDER BY g.created_at DESC LIMIT $perPage OFFSET $offset");
+  $stmt = $pdo->prepare("SELECT g.*, au.username as uploader FROM gallery g LEFT JOIN admin_users au ON g.uploaded_by = au.id WHERE $where ORDER BY COALESCE(g.publish_date, g.created_at) DESC, g.id DESC LIMIT $perPage OFFSET $offset");
   $stmt->execute($params);
   $images = $stmt->fetchAll();
 } catch (PDOException $e) {
@@ -116,9 +116,9 @@ include dirname(dirname(__DIR__)) . '/includes/header.php';
               <th>Image</th>
               <th>Title</th>
               <th>Category</th>
+              <th>Date</th>
               <th>Status</th>
               <th>Uploaded By</th>
-              <th>Created</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -142,9 +142,9 @@ include dirname(dirname(__DIR__)) . '/includes/header.php';
               </tr>
             <?php endforeach; ?>
           </tbody>
+                <td><?php echo format_date($image['publish_date'] ?: $image['created_at']); ?></td>
         </table>
       </div>
-      <?php echo create_pagination($page, $totalPages, ADMIN_URL . '/modules/our-work/index.php'); ?>
     <?php endif; ?>
   </div>
 </div>

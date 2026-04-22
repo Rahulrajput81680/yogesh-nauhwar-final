@@ -13,6 +13,14 @@ $contentArray = static function (string $path): array {
 $contentList = static function (string $path) use ($lang): array {
 	return frontend_content_list($path, $lang);
 };
+
+$homeMediaCoverage = [];
+try {
+	$pdo = frontend_db();
+	$homeMediaCoverage = frontend_gallery_items($pdo, 'media_coverage', 6);
+} catch (Throwable $e) {
+	$homeMediaCoverage = [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo frontend_escape(frontend_current_lang()); ?>">
@@ -932,76 +940,23 @@ $contentList = static function (string $path) use ($lang): array {
 			<div class="completed-project-slider-active" data-aos="fade-up" data-aos-delay="800" data-aos-duration="1000">
 				<div class="swiper">
 					<div class="swiper-wrapper">
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href='media-coverage.php'><img alt="thumb-11" src="assets/img/home/media-coverage/news7.webp"></a>
-									<div class="number">
-										<a href='media-coverage.php'>No - 01</a>
+						<?php foreach ($homeMediaCoverage as $index => $item): ?>
+							<?php
+							$thumb = !empty($item['image']) ? frontend_upload_url($item['image']) : 'assets/img/home/media-coverage/news7.webp';
+							$mediaLabel = str_pad((string) ($index + 1), 2, '0', STR_PAD_LEFT);
+							$altText = $item['title'] ?: ($item['category'] ?: 'Media coverage image');
+							?>
+							<div class="swiper-slide">
+								<div class="project-card">
+									<div class="thumb">
+										<a href='media-coverage.php'><img alt="<?php echo frontend_escape($altText); ?>" src="<?php echo frontend_escape($thumb); ?>"></a>
+										<div class="number">
+											<a href='media-coverage.php'>No - <?php echo $mediaLabel; ?></a>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news4.webp"></a>
-									<div class="number">
-										<a href='media-coverage.php'>No - 02</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href='media-coverage.php'><img alt="thumb-13" src="assets/img/home/media-coverage/news5.webp"></a>
-									<div class="number">
-										<a href='media-coverage.php'>No - 03</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news6.webp"></a>
-									<div class="number">
-										<a href='media-coverage.php'>No - 04</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news10.webp"></a>
-									<div class="number">
-										<a href='media-coverage.php'>No - 05</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news12.webp"></a>
-									<div class="number">
-										<a href='media-coverage.php'>No - 06</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="swiper-slide">
-							<div class="project-card">
-								<div class="thumb">
-									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news11.webp"></a>
-									<div class="number">
-										<a href='media-coverage.php'>No - 06</a>
-									</div>
-								</div>
-							</div>
-						</div>
+						<?php endforeach; ?>
 					</div>
 				</div>
 				<div class="container">

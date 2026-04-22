@@ -130,6 +130,7 @@ if (!function_exists('admin_ensure_runtime_schema')) {
         `title` varchar(255) NOT NULL,
         `image` varchar(255) NOT NULL,
         `category` varchar(100) DEFAULT NULL,
+        `publish_date` date DEFAULT NULL,
         `display_section` enum('gallery','our_work','media_coverage') NOT NULL DEFAULT 'gallery',
         `status` enum('active','inactive') DEFAULT 'active',
         `uploaded_by` int(11) DEFAULT NULL,
@@ -137,14 +138,18 @@ if (!function_exists('admin_ensure_runtime_schema')) {
         PRIMARY KEY (`id`),
         KEY `idx_status` (`status`),
         KEY `idx_category` (`category`),
+        KEY `idx_publish_date` (`publish_date`),
         KEY `idx_display_section` (`display_section`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
       if (!admin_schema_column_exists($pdo, 'gallery', 'category')) {
         $pdo->exec("ALTER TABLE `gallery` ADD COLUMN `category` varchar(100) DEFAULT NULL AFTER `image`");
       }
+      if (!admin_schema_column_exists($pdo, 'gallery', 'publish_date')) {
+        $pdo->exec("ALTER TABLE `gallery` ADD COLUMN `publish_date` date DEFAULT NULL AFTER `category`");
+      }
       if (!admin_schema_column_exists($pdo, 'gallery', 'display_section')) {
-        $pdo->exec("ALTER TABLE `gallery` ADD COLUMN `display_section` enum('gallery','our_work','media_coverage') NOT NULL DEFAULT 'gallery' AFTER `category`");
+        $pdo->exec("ALTER TABLE `gallery` ADD COLUMN `display_section` enum('gallery','our_work','media_coverage') NOT NULL DEFAULT 'gallery' AFTER `publish_date`");
       }
       if (!admin_schema_column_exists($pdo, 'gallery', 'status')) {
         $pdo->exec("ALTER TABLE `gallery` ADD COLUMN `status` enum('active','inactive') DEFAULT 'active' AFTER `display_section`");
@@ -152,6 +157,7 @@ if (!function_exists('admin_ensure_runtime_schema')) {
       if (!admin_schema_column_exists($pdo, 'gallery', 'uploaded_by')) {
         $pdo->exec("ALTER TABLE `gallery` ADD COLUMN `uploaded_by` int(11) DEFAULT NULL AFTER `status`");
       }
+      $pdo->exec("UPDATE `gallery` SET `publish_date` = DATE(`created_at`) WHERE `publish_date` IS NULL");
 
       $pdo->exec("CREATE TABLE IF NOT EXISTS `admin_settings` (
         `setting_key` varchar(100) NOT NULL,
