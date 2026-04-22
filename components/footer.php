@@ -90,25 +90,25 @@ $footerContentText = (isset($contentText) && is_callable($contentText))
 							</div>
 							<div class="text">
 								<h6>Address</h6>
-								<p>Mant, Mathura, Uttar Pradesh</p>
+								<p>1/100, Radha Puram State, Mathura</p>
 							</div>
 						</a>
-						<a href="mailto:support@example.com" class="email">
+						<a href="mailto:vidhayakyogeshnauhwar@gmail.com" class="email">
 							<div class="icon">
 								<i class="fa-solid fa-paper-plane"></i>
 							</div>
 							<div class="text">
 								<h6>Email</h6>
-								<p>yogeshnauhwar@gmail.com</p>
+								<p>vidhayakyogeshnauhwar@gmail.com</p>
 							</div>
 						</a>
-						<a href="tel:+70264566579" class="phone">
+						<a href="tel:+917456982962" class="phone">
 							<div class="icon">
 								<i class="fa-solid fa-phone-arrow-up-right"></i>
 							</div>
 							<div class="text">
 								<h6>Phone</h6>
-								<p>+70 264 566 579</p>
+								<p>+91 7456982962</p>
 							</div>
 						</a>
 					</div>

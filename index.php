@@ -137,7 +137,7 @@ try {
 											<p><?php echo frontend_escape($contentText('home.hero.slide3.text')); ?></p>
 										</div>
 										<div class="join-us" data-animation="animate__fadeInUp" data-delay="0.6s">
-											<a class='e-primary-btn has-icon' href='donations.html'>
+											<a class='e-primary-btn has-icon' href='about.php'>
 												<?php echo frontend_escape($contentText('home.hero.slide3.cta')); ?>
 												<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span></span>
 											</a>
@@ -923,7 +923,7 @@ try {
 						<div class="common-subtitle style-color-2" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
 							<img alt="icon-2" src="assets/img/icons/wheat.png" class="wheat-icon"> <span><?php echo frontend_escape($contentText('home.mediaCoverage.sectionSubtitle')); ?></span>
 						</div>
-						<div class="common-title style-color-light text-start m-b-0" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+						<div class="common-title media-coverage style-color-light text-start m-b-0" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
 							<h2><?php echo $contentText('home.mediaCoverage.sectionTitle'); ?></h2>
 						</div>
 					</div>
@@ -940,6 +940,7 @@ try {
 			<div class="completed-project-slider-active" data-aos="fade-up" data-aos-delay="800" data-aos-duration="1000">
 				<div class="swiper">
 					<div class="swiper-wrapper">
+<<<<<<< HEAD
 						<?php foreach ($homeMediaCoverage as $index => $item): ?>
 							<?php
 							$thumb = !empty($item['image']) ? frontend_upload_url($item['image']) : 'assets/img/home/media-coverage/news7.webp';
@@ -957,6 +958,78 @@ try {
 								</div>
 							</div>
 						<?php endforeach; ?>
+=======
+						<div class="swiper-slide">
+							<div class="project-card">
+								<div class="thumb">
+									<a href='media-coverage.php'><img alt="thumb-11" src="assets/img/home/media-coverage/news7.webp"></a>
+									<!-- <div class="number">
+										<a href='media-coverage.php'>No - 01</a>
+									</div> -->
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="project-card">
+								<div class="thumb">
+									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news4.webp"></a>
+									<!-- <div class="number">
+										<a href='media-coverage.php'>No - 02</a>
+									</div> -->
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="project-card">
+								<div class="thumb">
+									<a href='media-coverage.php'><img alt="thumb-13" src="assets/img/home/media-coverage/news5.webp"></a>
+									<!-- <div class="number">
+										<a href='media-coverage.php'>No - 03</a>
+									</div> -->
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="project-card">
+								<div class="thumb">
+									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news6.webp"></a>
+									<!-- <div class="number">
+										<a href='media-coverage.php'>No - 04</a>
+									</div> -->
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="project-card">
+								<div class="thumb">
+									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news10.webp"></a>
+									<!-- <div class="number">
+										<a href='media-coverage.php'>No - 05</a>
+									</div> -->
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="project-card">
+								<div class="thumb">
+									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news12.webp"></a>
+									<!-- <div class="number">
+										<a href='media-coverage.php'>No - 06</a>
+									</div> -->
+								</div>
+							</div>
+						</div>
+						<div class="swiper-slide">
+							<div class="project-card">
+								<div class="thumb">
+									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news11.webp"></a>
+									<!-- <div class="number">
+										<a href='media-coverage.php'>No - 06</a>
+									</div> -->
+								</div>
+							</div>
+						</div>
+>>>>>>> 0da86eaac84c65a939f0388bdc15fa55a888f53f
 					</div>
 				</div>
 				<div class="container">

@@ -74,24 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <?php if ($message_type === 'success'): ?>
-          <!-- Successfully sent -->
-          <div class="info-box">
-            <i class="bi bi-envelope-check-fill"></i>
-            If your email is registered with us, you will receive a password reset link shortly. The link expires in 30
-            minutes.
-          </div>
-
-          <?php
-          $smtpHostForInfo = (string) get_admin_setting('smtp_host', defined('MAIL_SMTP_HOST') ? MAIL_SMTP_HOST : '');
-          if (stripos($smtpHostForInfo, 'sandbox.smtp.mailtrap.io') !== false):
-            ?>
-            <div class="alert alert-info" role="alert">
-              <i class="bi bi-info-circle-fill me-2"></i>
-              SMTP is configured with Mailtrap Sandbox. Emails are captured in your Mailtrap inbox and will not arrive in
-              Gmail directly.
-            </div>
-          <?php endif; ?>
-
           <?php if (!empty($reset_link)): ?>
             <div class="alert alert-warning" role="alert">
               <i class="bi bi-link-45deg me-2"></i>
@@ -114,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <!-- Show the form -->
           <div class="info-box">
             <i class="bi bi-info-circle-fill"></i>
-            Enter your email address and we'll send you instructions to reset your password.
+            Enter your email address. If it is registered with us, we will send you a password reset link on mail.
           </div>
 
           <form method="POST" action="">
