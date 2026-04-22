@@ -920,8 +920,8 @@ return array (
         ),
         'sectionTitle' => 
         array (
-          'hi' => 'हमारा काम, प्रेस द्वारा कवर किया गया😍',
-          'en' => 'Our Work, Covered by the Press 😍',
+          'hi' => 'हमारा काम, प्रेस द्वारा कवर किया गया',
+          'en' => 'Our Work, Covered by the Press ',
         ),
         'cta' => 
         array (
