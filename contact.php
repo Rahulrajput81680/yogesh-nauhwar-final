@@ -34,13 +34,13 @@ if (!function_exists('build_contact_auto_reply_email')) {
 	<div class="wrapper">
 		<div class="card">
 			<div class="header">
-				<div class="badge">Message Received</div>
-				<h1 style="margin: 0; font-size: 28px;">Thank you for contacting us</h1>
-				<p style="margin: 12px 0 0; opacity: 0.95;">We will contact you soon.</p>
+				<div class="badge">Request Received</div>
+				<h1 style="margin: 0; font-size: 28px;">Thank you for reaching out</h1>
+				<p style="margin: 12px 0 0; opacity: 0.95;">We have received your request successfully and will contact you soon.</p>
 			</div>
 			<div class="content">
 				<p class="lead">Hello {$recipientName},</p>
-				<p class="lead">Thank you for contacting us. We have received your message regarding <strong>{$subjectLine}</strong>, and our team will contact you soon.</p>
+				<p class="lead">Thank you for contacting us. We have received your request regarding <strong>{$subjectLine}</strong>, and our team will contact you soon.</p>
 				<div class="panel">
 					<h3>Your Message</h3>
 					<p class="message">{$messageBody}</p>
@@ -57,7 +57,7 @@ if (!function_exists('build_contact_auto_reply_email')) {
 </html>
 HTML;
 
-		$plain = "Hello {$name},\n\nThank you for contacting us. We have received your message regarding {$subject}, and our team will contact you soon.\n\nYour message:\n{$message}\n\nIf your request is urgent, please keep this email thread open so we can respond faster.\n\n{$projectName}\nThis is an automated confirmation email. Please do not reply.";
+		$plain = "Hello {$name},\n\nThank you for contacting us. We have received your request regarding {$subject}, and our team will contact you soon.\n\nYour message:\n{$message}\n\nIf your request is urgent, please keep this email thread open so we can respond faster.\n\n{$projectName}\nThis is an automated confirmation email. Please do not reply.";
 
 		return ['html' => $html, 'plain' => $plain];
 	}

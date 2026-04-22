@@ -129,7 +129,7 @@ $contentList = static function (string $path) use ($lang): array {
 											<p><?php echo frontend_escape($contentText('home.hero.slide3.text')); ?></p>
 										</div>
 										<div class="join-us" data-animation="animate__fadeInUp" data-delay="0.6s">
-											<a class='e-primary-btn has-icon' href='donations.html'>
+											<a class='e-primary-btn has-icon' href='about.php'>
 												<?php echo frontend_escape($contentText('home.hero.slide3.cta')); ?>
 												<span class="icon-wrap"><span class="icon"><i class="fa-regular fa-arrow-right"></i><i class="fa-regular fa-arrow-right"></i></span></span>
 											</a>
@@ -936,9 +936,9 @@ $contentList = static function (string $path) use ($lang): array {
 							<div class="project-card">
 								<div class="thumb">
 									<a href='media-coverage.php'><img alt="thumb-11" src="assets/img/home/media-coverage/news7.webp"></a>
-									<div class="number">
+									<!-- <div class="number">
 										<a href='media-coverage.php'>No - 01</a>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
@@ -946,9 +946,9 @@ $contentList = static function (string $path) use ($lang): array {
 							<div class="project-card">
 								<div class="thumb">
 									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news4.webp"></a>
-									<div class="number">
+									<!-- <div class="number">
 										<a href='media-coverage.php'>No - 02</a>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
@@ -956,9 +956,9 @@ $contentList = static function (string $path) use ($lang): array {
 							<div class="project-card">
 								<div class="thumb">
 									<a href='media-coverage.php'><img alt="thumb-13" src="assets/img/home/media-coverage/news5.webp"></a>
-									<div class="number">
+									<!-- <div class="number">
 										<a href='media-coverage.php'>No - 03</a>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
@@ -966,9 +966,9 @@ $contentList = static function (string $path) use ($lang): array {
 							<div class="project-card">
 								<div class="thumb">
 									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news6.webp"></a>
-									<div class="number">
+									<!-- <div class="number">
 										<a href='media-coverage.php'>No - 04</a>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
@@ -976,9 +976,9 @@ $contentList = static function (string $path) use ($lang): array {
 							<div class="project-card">
 								<div class="thumb">
 									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news10.webp"></a>
-									<div class="number">
+									<!-- <div class="number">
 										<a href='media-coverage.php'>No - 05</a>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
@@ -986,9 +986,9 @@ $contentList = static function (string $path) use ($lang): array {
 							<div class="project-card">
 								<div class="thumb">
 									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news12.webp"></a>
-									<div class="number">
+									<!-- <div class="number">
 										<a href='media-coverage.php'>No - 06</a>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
@@ -996,9 +996,9 @@ $contentList = static function (string $path) use ($lang): array {
 							<div class="project-card">
 								<div class="thumb">
 									<a href='media-coverage.php'><img alt="thumb-12" src="assets/img/home/media-coverage/news11.webp"></a>
-									<div class="number">
+									<!-- <div class="number">
 										<a href='media-coverage.php'>No - 06</a>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>

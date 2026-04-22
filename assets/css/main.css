@@ -9765,7 +9765,7 @@ label {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(180deg, rgba(0, 24, 25, 0) 38.69%, rgba(0, 24, 25, 0.0) 80%, #001819 100%);
+  /* background: linear-gradient(180deg, rgba(0, 24, 25, 0) 38.69%, rgba(0, 24, 25, 0.0) 80%, #001819 100%); */
   /* background: linear-gradient(180deg, rgba(255, 225, 117, 0) 64.88%, #2b835b 100%); */
   z-index: 2;
 }
@@ -9961,7 +9961,7 @@ label {
   height: 100%;
 }
 .completed-project-slider-active .swiper-slide-active .project-card .thumb a img {
-  transform: scale(1.1);
+  transform: none !important;
 }
 .completed-project-slider-active .swiper-slide-active .project-card .thumb .content {
   padding-bottom: 100px;
@@ -15672,32 +15672,29 @@ label {
 .gallery-collage-item:hover img {
   transform: scale(1.08);
 }
-.gallery-collage-item:nth-child(1),
-.gallery-collage-item:nth-child(2),
-.gallery-collage-item:nth-child(3) {
+
+.gallery-collage-item:nth-child(10n + 1),
+.gallery-collage-item:nth-child(10n + 2),
+.gallery-collage-item:nth-child(10n + 3) {
   grid-column: span 2;
 }
-.gallery-collage-item:nth-child(4),
-.gallery-collage-item:nth-child(5) {
+
+.gallery-collage-item:nth-child(10n + 4),
+.gallery-collage-item:nth-child(10n + 5) {
   grid-column: span 3;
   grid-row: span 2;
 }
-.gallery-collage-item:nth-child(6),
-.gallery-collage-item:nth-child(7),
-.gallery-collage-item:nth-child(8) {
+
+.gallery-collage-item:nth-child(10n + 6),
+.gallery-collage-item:nth-child(10n + 7),
+.gallery-collage-item:nth-child(10n + 8) {
   grid-column: span 2;
 }
-.gallery-collage-item:nth-child(9),
-.gallery-collage-item:nth-child(10),
-.gallery-collage-item:nth-child(11) {
-    grid-column: span 3;
-    grid-row: span 2;
-}
-.gallery-collage-item:nth-child(12),
-.gallery-collage-item:nth-child(13),
-.gallery-collage-item:nth-child(14) {
-    grid-column: span 2;
-    /* grid-row: span 2; */
+
+.gallery-collage-item:nth-child(10n + 9),
+.gallery-collage-item:nth-child(10n + 10) {
+  grid-column: span 3;
+  grid-row: span 2;
 }
 .gallery-collage-feature-grid {
   margin-top: 24px;

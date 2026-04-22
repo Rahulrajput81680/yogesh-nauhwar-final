@@ -17,6 +17,25 @@ if (!function_exists('admin_schema_column_exists')) {
   }
 }
 
+if (!function_exists('admin_schema_column_type')) {
+  function admin_schema_column_type(PDO $pdo, string $table, string $column): ?string
+  {
+    try {
+      $stmt = $pdo->prepare('SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND COLUMN_NAME = ? LIMIT 1');
+      $stmt->execute([$table, $column]);
+      $value = $stmt->fetchColumn();
+
+      if ($value === false) {
+        return null;
+      }
+
+      return strtolower((string) $value);
+    } catch (Throwable $e) {
+      return null;
+    }
+  }
+}
+
 if (!function_exists('admin_ensure_runtime_schema')) {
   function admin_ensure_runtime_schema(PDO $pdo): void
   {
@@ -111,6 +130,12 @@ if (!function_exists('admin_ensure_runtime_schema')) {
       }
       if (!admin_schema_column_exists($pdo, 'blogs', 'seo_description')) {
         $pdo->exec("ALTER TABLE `blogs` ADD COLUMN `seo_description` text AFTER `seo_title`");
+      }
+      if (admin_schema_column_exists($pdo, 'blogs', 'content')) {
+        $contentColumnType = admin_schema_column_type($pdo, 'blogs', 'content');
+        if ($contentColumnType !== 'longtext') {
+          $pdo->exec("ALTER TABLE `blogs` MODIFY `content` LONGTEXT NOT NULL");
+        }
       }
       if (!admin_schema_column_exists($pdo, 'blogs', 'meta_keywords')) {
         $pdo->exec("ALTER TABLE `blogs` ADD COLUMN `meta_keywords` varchar(255) DEFAULT NULL AFTER `seo_description`");
