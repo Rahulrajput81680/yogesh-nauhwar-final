@@ -632,7 +632,7 @@ try {
 							<div class="service-top">
 								<h4><?php echo frontend_escape($contentText('home.joinUs.card3.title')); ?></h4>
 								<div class="join-utility join-qr">
-									<img src="https://quickchart.io/qr?size=170&text=https%3A%2F%2Fwww.rashtriyalokdal.org%2F" alt="RLD membership QR" loading="lazy">
+									<img src="./assets/img/logo/rld-membership.png" alt="RLD membership QR" loading="lazy">
 								</div>
 							</div>
 							<div class="service-content">

@@ -441,11 +441,15 @@ HTML;
     "" . PROJECT_NAME . "\n" .
     "This is an automated email. Please do not reply.";
 
-  // Send via send_email() which uses SMTP if configured, else PHP mail()
-  $mail_sent = send_email($to, $subject, $message, $plain_message);
+  // Send via send_email() which uses SMTP if configured
+  $mail_sent = send_email($to, $subject, $message, $plain_message, [
+    'debug' => defined('MAIL_SMTP_DEBUG') ? MAIL_SMTP_DEBUG : false,
+  ]);
 
   if (!$mail_sent) {
-    error_log("Failed to send password reset email to: " . $to);
+    error_log('[PasswordReset] Email FAILED to send to: ' . $to);
+  } else {
+    error_log('[PasswordReset] Reset email sent OK to: ' . $to);
   }
 
   return $mail_sent;

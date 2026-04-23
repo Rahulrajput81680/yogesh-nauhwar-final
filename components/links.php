@@ -1,5 +1,5 @@
 <!-- Favicon -->
-	<link rel="shortcut icon" type="image/x-icon" href="assets/img/logo/yogesh-logo.png"/>
+	<link rel="shortcut icon" type="image/x-icon" href="assets/img/logo/favicon.png"/>
 
 	<!-- Google fonts -->
 	<link rel="preconnect" href="https://fonts.googleapis.com/"/>

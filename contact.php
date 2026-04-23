@@ -2,6 +2,76 @@
 require_once __DIR__ . '/components/frontend-init.php';
 
 if (!function_exists('build_contact_auto_reply_email')) {
+	function build_contact_admin_notification_email(string $name, string $email, string $phone, string $location, string $dateOfBirth, string $occupation, string $message): array
+	{
+		$projectName = defined('PROJECT_NAME') ? PROJECT_NAME : 'Website';
+		$currentYear = date('Y');
+		$escapedName = htmlspecialchars($name !== '' ? $name : 'Unknown', ENT_QUOTES, 'UTF-8');
+		$escapedEmail = htmlspecialchars($email !== '' ? $email : 'Not provided', ENT_QUOTES, 'UTF-8');
+		$escapedPhone = htmlspecialchars($phone !== '' ? $phone : 'Not provided', ENT_QUOTES, 'UTF-8');
+		$escapedLocation = htmlspecialchars($location !== '' ? $location : 'Not provided', ENT_QUOTES, 'UTF-8');
+		$escapedDob = htmlspecialchars($dateOfBirth !== '' ? $dateOfBirth : 'Not provided', ENT_QUOTES, 'UTF-8');
+		$escapedOccupation = htmlspecialchars($occupation !== '' ? $occupation : 'Not provided', ENT_QUOTES, 'UTF-8');
+		$escapedMessage = nl2br(htmlspecialchars($message !== '' ? $message : 'No message provided.', ENT_QUOTES, 'UTF-8'));
+		$projectNameSafe = htmlspecialchars($projectName, ENT_QUOTES, 'UTF-8');
+
+		$html = <<<HTML
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<style>
+		body { margin: 0; padding: 0; background: #f4f7fb; font-family: Arial, Helvetica, sans-serif; color: #1f2937; }
+		.wrapper { width: 100%; padding: 32px 12px; }
+		.card { max-width: 720px; margin: 0 auto; background: #ffffff; border-radius: 18px; overflow: hidden; box-shadow: 0 18px 48px rgba(17, 24, 39, 0.12); }
+		.header { background: linear-gradient(135deg, #0f766e 0%, #155e75 100%); color: #ffffff; padding: 30px 32px; }
+		.content { padding: 28px 32px 30px; }
+		.row { margin: 0 0 14px; line-height: 1.6; }
+		.label { display: inline-block; min-width: 120px; font-weight: 700; color: #0f766e; }
+		.message { background: #f8fafc; border: 1px solid #dbe4ee; border-radius: 14px; padding: 16px 18px; white-space: pre-wrap; }
+		.footer { padding: 16px 32px 28px; color: #6b7280; font-size: 13px; }
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="card">
+			<div class="header">
+				<h1 style="margin: 0; font-size: 24px;">New contact form submission</h1>
+				<p style="margin: 10px 0 0; opacity: 0.95;">A visitor has submitted the contact form and replied to this message with their email.</p>
+			</div>
+			<div class="content">
+				<div class="row"><span class="label">Name:</span> {$escapedName}</div>
+				<div class="row"><span class="label">Email:</span> {$escapedEmail}</div>
+				<div class="row"><span class="label">Phone:</span> {$escapedPhone}</div>
+				<div class="row"><span class="label">Location:</span> {$escapedLocation}</div>
+				<div class="row"><span class="label">Date of Birth:</span> {$escapedDob}</div>
+				<div class="row"><span class="label">Occupation:</span> {$escapedOccupation}</div>
+				<div class="row"><span class="label">Message:</span></div>
+				<div class="message">{$escapedMessage}</div>
+			</div>
+			<div class="footer">
+				<p style="margin: 0 0 8px;">&copy; {$currentYear} {$projectNameSafe}. All rights reserved.</p>
+				<p style="margin: 0;">This message was generated automatically from the contact form.</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+HTML;
+
+		$plain = "New contact form submission\n\n"
+			. "Name: {$name}\n"
+			. "Email: {$email}\n"
+			. "Phone: {$phone}\n"
+			. "Location: {$location}\n"
+			. "Date of Birth: {$dateOfBirth}\n"
+			. "Occupation: {$occupation}\n\n"
+			. "Message:\n{$message}\n\n"
+			. "{$projectName}";
+
+		return ['html' => $html, 'plain' => $plain];
+	}
+
 	function build_contact_auto_reply_email(string $name, string $subject, string $message): array
 	{
 		$projectName = defined('PROJECT_NAME') ? PROJECT_NAME : 'Our Team';
@@ -57,7 +127,7 @@ if (!function_exists('build_contact_auto_reply_email')) {
 </html>
 HTML;
 
-		$plain = "Hello {$name},\n\nThank you for contacting us. We have received your request regarding {$subject}, and our team will contact you soon.\n\nYour message:\n{$message}\n\nIf your request is urgent, please keep this email thread open so we can respond faster.\n\n{$projectName}\nThis is an automated confirmation email. Please do not reply.";
+		$plain = "Hello {$name},\n\nThank you for contacting us. We have received your request, and our team will contact you soon.\n\nYour message:\n{$message}\n\nIf your request is urgent, please keep this email thread open so we can respond faster.\n\n{$projectName}\nThis is an automated confirmation email. Please do not reply.";
 
 		return ['html' => $html, 'plain' => $plain];
 	}
@@ -76,6 +146,25 @@ $contactValues = [
 	'occupation' => '',
 	'message' => '',
 ];
+
+if (!function_exists('is_valid_contact_phone')) {
+	function is_valid_contact_phone(string $phone): bool
+	{
+		return (bool) preg_match('/^\d{10}$/', $phone);
+	}
+}
+
+if (!function_exists('is_valid_contact_date')) {
+	function is_valid_contact_date(string $dateValue): bool
+	{
+		if ($dateValue === '') {
+			return false;
+		}
+
+		$timestamp = strtotime($dateValue);
+		return $timestamp !== false && date('Y-m-d', $timestamp) === $dateValue;
+	}
+}
 
 if (!empty($_SESSION['contact_form_flash'])) {
 	$flash = $_SESSION['contact_form_flash'];
@@ -175,11 +264,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		'message' => $message,
 	];
 
-	if ($name === '' || $email === '' || $message === '') {
+	if (
+		$name === '' ||
+		$phone === '' ||
+		$email === '' ||
+		$location === '' ||
+		$dateOfBirth === '' ||
+		$occupation === '' ||
+		$message === ''
+	) {
 		$contactMessage = translate('contact_required', 'Please fill all required fields.');
+		$contactMessageType = 'error';
+	} elseif (!is_valid_contact_phone($phone)) {
+		$contactMessage = translate('contact_invalid_phone', 'Please enter a valid 10-digit mobile number.');
 		$contactMessageType = 'error';
 	} elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		$contactMessage = translate('contact_invalid_email', 'Please enter a valid email address.');
+		$contactMessageType = 'error';
+	} elseif (!is_valid_contact_date($dateOfBirth)) {
+		$contactMessage = translate('contact_invalid_dob', 'Please select a valid date of birth.');
 		$contactMessageType = 'error';
 	} else {
 		$subjectParts = [];
@@ -216,23 +319,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$stmt = $pdo->prepare("INSERT INTO contact_messages ({$columnSql}) VALUES ({$placeholderSql})");
 			$stmt->execute($values);
 
+			// ── Load mailer (self-contained, works regardless of frontend_db() cache state) ──
 			if (!function_exists('send_email')) {
+				// Ensure ADMIN_INIT is defined so mailer.php and config.php security guard passes
 				if (!defined('ADMIN_INIT')) {
 					define('ADMIN_INIT', true);
+				}
+				// Ensure MAIL_SMTP_* constants are defined even if config.php was already
+				// require_once'd via frontend_db() — define() is a no-op if already set.
+				$_mailConfigPath = __DIR__ . '/admin/config/config.php';
+				if (is_file($_mailConfigPath) && !defined('MAIL_SMTP_HOST')) {
+					require_once $_mailConfigPath;
 				}
 				require_once __DIR__ . '/admin/core/mailer.php';
 			}
 
 			if (function_exists('send_email')) {
 				try {
-					$autoReply = build_contact_auto_reply_email($name, $subject, $message);
+					$adminRecipient = defined('MAIL_CONTACT_RECIPIENT') ? MAIL_CONTACT_RECIPIENT : (defined('MAIL_FROM_ADDRESS') ? MAIL_FROM_ADDRESS : '');
+
+					// 1. Admin notification email
+					$contactAdmin   = build_contact_admin_notification_email($name, $email, $phone, $location, $dateOfBirth, $occupation, $message);
+					$adminSubject   = (defined('PROJECT_NAME') ? PROJECT_NAME : 'Website') . ' - New Contact Form Submission';
+					$adminSent = send_email(
+						$adminRecipient,
+						$adminSubject,
+						$contactAdmin['html'],
+						$contactAdmin['plain'],
+						[
+							'replyToEmail' => $email,
+							'replyToName'  => $name,
+							'debug'        => defined('MAIL_SMTP_DEBUG') ? MAIL_SMTP_DEBUG : false,
+						]
+					);
+					if (!$adminSent) {
+						error_log('[Contact] Admin notification FAILED for submission from: ' . $email);
+					} else {
+						error_log('[Contact] Admin notification sent OK to: ' . $adminRecipient);
+					}
+
+					// 2. Auto-reply to the user
+					$autoReply        = build_contact_auto_reply_email($name, $subject, $message);
 					$autoReplySubject = (defined('PROJECT_NAME') ? PROJECT_NAME : 'Website') . ' - We Received Your Message';
-					$replySent = send_email($email, $autoReplySubject, $autoReply['html'], $autoReply['plain']);
+					$replySent = send_email(
+						$email,
+						$autoReplySubject,
+						$autoReply['html'],
+						$autoReply['plain'],
+						[
+							'replyToEmail' => $adminRecipient !== '' ? $adminRecipient : (defined('MAIL_FROM_ADDRESS') ? MAIL_FROM_ADDRESS : ''),
+							'replyToName'  => defined('PROJECT_NAME') ? PROJECT_NAME : 'Website',
+							'debug'        => defined('MAIL_SMTP_DEBUG') ? MAIL_SMTP_DEBUG : false,
+						]
+					);
 					if (!$replySent) {
-						error_log('Contact auto-reply failed for: ' . $email);
+						error_log('[Contact] Auto-reply FAILED for user: ' . $email);
+					} else {
+						error_log('[Contact] Auto-reply sent OK to: ' . $email);
 					}
 				} catch (Throwable $mailError) {
-					error_log('Contact auto-reply exception: ' . $mailError->getMessage());
+					error_log('[Contact] Mail exception: ' . $mailError->getMessage());
 				}
 			}
 
@@ -398,14 +544,17 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 										<div class="input-wrap">
 											<input type="text"
 												placeholder="<?php echo frontend_escape(translate('placeholder_full_name', 'Full Name')); ?>"
-												name="name" value="<?php echo frontend_display_text($contactValues['name']); ?>">
+												name="name" value="<?php echo frontend_display_text($contactValues['name']); ?>" required>
 										</div>
 									</div>
 									<div class="col-xl-6">
 										<div class="input-wrap">
 											<input type="tel"
+												inputmode="numeric"
 												placeholder="<?php echo frontend_escape(translate('placeholder_phone', 'Phone Number')); ?>"
-												name="phone" value="<?php echo frontend_display_text($contactValues['phone']); ?>">
+												pattern="[0-9]{10}"
+												maxlength="10"
+												name="phone" value="<?php echo frontend_display_text($contactValues['phone']); ?>" required>
 										</div>
 									</div>
 								</div>
@@ -414,30 +563,33 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 										<div class="input-wrap">
 											<input type="email"
 												placeholder="<?php echo frontend_escape(translate('placeholder_email', 'Email Address')); ?>"
-												name="email" value="<?php echo frontend_display_text($contactValues['email']); ?>">
+												name="email" value="<?php echo frontend_display_text($contactValues['email']); ?>" required>
 										</div>
 									</div>
 									<div class="col-xl-6">
 										<div class="input-wrap">
 											<input type="text"
 												placeholder="<?php echo frontend_escape(translate('placeholder_location', 'Current Location')); ?>"
-												name="location" value="<?php echo frontend_display_text($contactValues['location']); ?>">
+												name="location" value="<?php echo frontend_display_text($contactValues['location']); ?>" required>
 										</div>
 									</div>
 								</div>
 								<div class="row form-row">
 									<div class="col-xl-6">
 										<div class="input-wrap">
-											<input type="text"
-												placeholder="<?php echo frontend_escape(translate('placeholder_dob', 'Date of Birth')); ?>"
-												name="date" value="<?php echo frontend_display_text($contactValues['date']); ?>">
+											<div class="input-group">
+												<!-- <span class="input-group-text" aria-hidden="true"><i class="fa-light fa-calendar-days"></i></span> -->
+												<input type="date"
+													placeholder="<?php echo frontend_escape(translate('placeholder_dob', 'Date of Birth')); ?>"
+													name="date" value="<?php echo frontend_display_text($contactValues['date']); ?>" required>
+											</div>
 										</div>
 									</div>
 									<div class="col-xl-6">
 										<div class="input-wrap">
 											<input type="text"
 												placeholder="<?php echo frontend_escape(translate('placeholder_occupation', 'Occupation')); ?>"
-												name="occupation" value="<?php echo frontend_display_text($contactValues['occupation']); ?>">
+												name="occupation" value="<?php echo frontend_display_text($contactValues['occupation']); ?>" required>
 										</div>
 									</div>
 								</div>
@@ -446,7 +598,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 										<div class="input-wrap">
 											<textarea
 												placeholder="<?php echo frontend_escape(translate('placeholder_message', 'Say Something...')); ?>"
-												name="message"><?php echo frontend_display_text($contactValues['message']); ?></textarea>
+												name="message" required><?php echo frontend_display_text($contactValues['message']); ?></textarea>
 										</div>
 										<div class="input-button">
 											<button id="contactSubmitBtn" type="submit" class="e-primary-btn has-icon"
@@ -519,9 +671,19 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 			var originalLabel = submitBtn.getAttribute('data-default-text') || 'Submit Now';
 			var submittingLabel = submitBtn.getAttribute('data-submitting-text') || 'Submitting...';
 			var isSubmitting = false;
+			var phoneInput = form.querySelector('input[name="phone"]');
 			var messageWrap = document.createElement('div');
 			messageWrap.className = 'mt-3';
 			form.insertAdjacentElement('afterend', messageWrap);
+
+			if (phoneInput) {
+				phoneInput.addEventListener('input', function () {
+					var digitsOnly = phoneInput.value.replace(/\D+/g, '').slice(0, 10);
+					if (phoneInput.value !== digitsOnly) {
+						phoneInput.value = digitsOnly;
+					}
+				});
+			}
 
 			function setButtonState(isSubmitting) {
 				submitBtn.disabled = isSubmitting;
@@ -550,6 +712,10 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 			form.addEventListener('submit', function (event) {
 				event.preventDefault();
 				if (isSubmitting) {
+					return;
+				}
+				if (!form.checkValidity()) {
+					form.reportValidity();
 					return;
 				}
 				isSubmitting = true;
