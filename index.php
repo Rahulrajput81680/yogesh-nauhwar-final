@@ -371,8 +371,8 @@ try {
 								<a class='e-primary-btn has-icon about-wiki-btn' href='https://en.wikipedia.org/wiki/Yogesh_Choudhary' target='_blank' rel='noopener noreferrer'>
 									View on
 									<span class="icon-wrap"><span class="icon"><i
-												class="fab fa-wikipedia-w"></i><i
-												class="fab fa-wikipedia-w"></i></span></span>
+											class="fab fa-wikipedia-w"></i><i
+											class="fab fa-wikipedia-w"></i></span></span>
 								</a>
 							</div>
 						</div>

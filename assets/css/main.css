@@ -15300,6 +15300,12 @@ label {
   /* background: var(--theme-color-3); */
   color: var(--theme-color-3);
 }
+.about-us-content .annual-donation-wrap .about-wiki-btn .icon-wrap {
+  width: 54px;
+}
+.about-us-content .annual-donation-wrap .about-wiki-btn .icon-wrap .icon {
+  width: 22px;
+}
 .about-us-content .annual-donation-wrap .about-wiki-btn:hover {
   color: var(--white-color);
 }
