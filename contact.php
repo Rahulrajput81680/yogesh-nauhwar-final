@@ -24,10 +24,10 @@ if (!function_exists('build_contact_auto_reply_email')) {
 		body { margin: 0; padding: 0; background: #f4f7fb; font-family: Arial, Helvetica, sans-serif; color: #1f2937; }
 		.wrapper { width: 100%; padding: 32px 12px; }
 		.card { max-width: 720px; margin: 0 auto; background: #ffffff; border-radius: 18px; overflow: hidden; box-shadow: 0 18px 48px rgba(17, 24, 39, 0.12); }
-		.header { background: linear-gradient(135deg, #0f766e 0%, #155e75 100%); color: #ffffff; padding: 30px 32px; }
+		.header { background: linear-gradient(135deg, #2b835b 0%, #2b835b 100%); color: #ffffff; padding: 30px 32px; }
 		.content { padding: 28px 32px 30px; }
 		.row { margin: 0 0 14px; line-height: 1.6; }
-		.label { display: inline-block; min-width: 120px; font-weight: 700; color: #0f766e; }
+		.label { display: inline-block; min-width: 120px; font-weight: 700; color: #2b835b; }
 		.message { background: #f8fafc; border: 1px solid #dbe4ee; border-radius: 14px; padding: 16px 18px; white-space: pre-wrap; }
 		.footer { padding: 16px 32px 28px; color: #6b7280; font-size: 13px; }
 	</style>
@@ -87,15 +87,15 @@ HTML;
 <head>
 	<meta charset="UTF-8">
 	<style>
-		body { margin: 0; padding: 0; background: #edf7f0; font-family: Arial, Helvetica, sans-serif; color: #1f2937; }
+		body { margin: 0; padding: 0; background: #f3f8ea; font-family: Arial, Helvetica, sans-serif; color: #1f2937; }
 		.wrapper { width: 100%; padding: 32px 12px; }
 		.card { max-width: 640px; margin: 0 auto; background: #ffffff; border-radius: 18px; overflow: hidden; box-shadow: 0 18px 48px rgba(17, 24, 39, 0.12); }
-		.header { background: linear-gradient(135deg, #2f8f5b 0%, #1f6f4a 100%); color: #ffffff; padding: 34px 32px; text-align: center; }
+		.header { background: linear-gradient(135deg, #2b835b 0%, #85bf18 100%); color: #ffffff; padding: 34px 32px; text-align: center; }
 		.badge { display: inline-block; margin-bottom: 14px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,0.16); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
 		.content { padding: 34px 32px 30px; }
 		.lead { font-size: 16px; line-height: 1.7; margin: 0 0 16px; }
-		.panel { background: #f4faf6; border: 1px solid #cfe8d8; border-radius: 14px; padding: 18px 20px; margin: 22px 0; }
-		.panel h3 { margin: 0 0 8px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: #2f8f5b; }
+		.panel { background: #f6fbe9; border: 1px solid #d6e7af; border-radius: 14px; padding: 18px 20px; margin: 22px 0; }
+		.panel h3 { margin: 0 0 8px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; color: #2b835b; }
 		.message { margin: 0; white-space: pre-wrap; line-height: 1.7; }
 		.footer { padding: 18px 32px 30px; text-align: center; color: #6b7280; font-size: 13px; }
 	</style>
@@ -336,7 +336,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 			if (function_exists('send_email')) {
 				try {
-					$adminRecipient = defined('MAIL_CONTACT_RECIPIENT') ? MAIL_CONTACT_RECIPIENT : (defined('MAIL_FROM_ADDRESS') ? MAIL_FROM_ADDRESS : '');
+					$adminRecipient = trim((string) (defined('MAIL_CONTACT_RECIPIENT') ? MAIL_CONTACT_RECIPIENT : (defined('MAIL_FROM_ADDRESS') ? MAIL_FROM_ADDRESS : '')));
+					$userRecipient = trim((string) $email);
+					$fromEmail = trim((string) (defined('MAIL_FROM_ADDRESS') ? MAIL_FROM_ADDRESS : ''));
+					$fromName = trim((string) (defined('MAIL_FROM_NAME') ? MAIL_FROM_NAME : (defined('PROJECT_NAME') ? PROJECT_NAME : 'Website')));
 
 					// 1. Admin notification email
 					$contactAdmin   = build_contact_admin_notification_email($name, $email, $phone, $location, $dateOfBirth, $occupation, $message);
@@ -347,6 +350,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 						$contactAdmin['html'],
 						$contactAdmin['plain'],
 						[
+							'toName'       => 'Website Admin',
+							'fromEmail'    => $fromEmail,
+							'fromName'     => $fromName,
 							'replyToEmail' => $email,
 							'replyToName'  => $name,
 							'debug'        => defined('MAIL_SMTP_DEBUG') ? MAIL_SMTP_DEBUG : false,
@@ -361,21 +367,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					// 2. Auto-reply to the user
 					$autoReply        = build_contact_auto_reply_email($name, $subject, $message);
 					$autoReplySubject = (defined('PROJECT_NAME') ? PROJECT_NAME : 'Website') . ' - We Received Your Message';
-					$replySent = send_email(
-						$email,
-						$autoReplySubject,
-						$autoReply['html'],
-						$autoReply['plain'],
-						[
-							'replyToEmail' => $adminRecipient !== '' ? $adminRecipient : (defined('MAIL_FROM_ADDRESS') ? MAIL_FROM_ADDRESS : ''),
-							'replyToName'  => defined('PROJECT_NAME') ? PROJECT_NAME : 'Website',
-							'debug'        => defined('MAIL_SMTP_DEBUG') ? MAIL_SMTP_DEBUG : false,
-						]
-					);
-					if (!$replySent) {
-						error_log('[Contact] Auto-reply FAILED for user: ' . $email);
+					if ($userRecipient !== '' && filter_var($userRecipient, FILTER_VALIDATE_EMAIL)) {
+						$replySent = send_email(
+							$userRecipient,
+							$autoReplySubject,
+							$autoReply['html'],
+							$autoReply['plain'],
+							[
+								'toName'       => $name !== '' ? $name : $userRecipient,
+								'fromEmail'    => $fromEmail,
+								'fromName'     => $fromName,
+								'replyToEmail' => $adminRecipient !== '' ? $adminRecipient : (defined('MAIL_FROM_ADDRESS') ? MAIL_FROM_ADDRESS : ''),
+								'replyToName'  => defined('PROJECT_NAME') ? PROJECT_NAME : 'Website',
+								'debug'        => defined('MAIL_SMTP_DEBUG') ? MAIL_SMTP_DEBUG : false,
+							]
+						);
+						if (!$replySent) {
+							error_log('[Contact] Auto-reply FAILED for user: ' . $userRecipient);
+						} else {
+							error_log('[Contact] Auto-reply sent OK to: ' . $userRecipient);
+						}
 					} else {
-						error_log('[Contact] Auto-reply sent OK to: ' . $email);
+						error_log('[Contact] Auto-reply skipped: invalid user email [' . $userRecipient . ']');
 					}
 				} catch (Throwable $mailError) {
 					error_log('[Contact] Mail exception: ' . $mailError->getMessage());
@@ -552,7 +565,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 											<input type="tel"
 												inputmode="numeric"
 												placeholder="<?php echo frontend_escape(translate('placeholder_phone', 'Phone Number')); ?>"
-												pattern="[0-9]{10}"
+												data-invalid-message="<?php echo frontend_escape(translate('contact_invalid_phone_custom', 'Please enter correct number.')); ?>"
 												maxlength="10"
 												name="phone" value="<?php echo frontend_display_text($contactValues['phone']); ?>" required>
 										</div>
@@ -672,17 +685,33 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 			var submittingLabel = submitBtn.getAttribute('data-submitting-text') || 'Submitting...';
 			var isSubmitting = false;
 			var phoneInput = form.querySelector('input[name="phone"]');
+			var syncPhoneValidity = function () {};
 			var messageWrap = document.createElement('div');
 			messageWrap.className = 'mt-3';
 			form.insertAdjacentElement('afterend', messageWrap);
 
 			if (phoneInput) {
+				var invalidPhoneMessage = phoneInput.getAttribute('data-invalid-message') || 'Please enter correct number.';
+				syncPhoneValidity = function () {
+					var phoneValue = phoneInput.value.trim();
+					if (phoneValue === '' || phoneValue.length === 10) {
+						phoneInput.setCustomValidity('');
+						return;
+					}
+
+					phoneInput.setCustomValidity(invalidPhoneMessage);
+				};
+
 				phoneInput.addEventListener('input', function () {
 					var digitsOnly = phoneInput.value.replace(/\D+/g, '').slice(0, 10);
 					if (phoneInput.value !== digitsOnly) {
 						phoneInput.value = digitsOnly;
 					}
+					syncPhoneValidity();
 				});
+
+				phoneInput.addEventListener('blur', syncPhoneValidity);
+				phoneInput.addEventListener('invalid', syncPhoneValidity);
 			}
 
 			function setButtonState(isSubmitting) {
@@ -714,6 +743,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 				if (isSubmitting) {
 					return;
 				}
+				syncPhoneValidity();
 				if (!form.checkValidity()) {
 					form.reportValidity();
 					return;

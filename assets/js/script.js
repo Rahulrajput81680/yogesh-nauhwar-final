@@ -818,7 +818,51 @@
     new PureCounter();
 
     /*--------------------------------------------------------------
-    20 Ajax Form
+    20 Floating Scanner Popup
+    --------------------------------------------------------------*/
+    $(function () {
+        var scannerWrap = $('.floating-scanner');
+        var scannerTrigger = $('[data-toggle-whatsapp-scanner="1"]');
+        var scannerPopup = $('#floating-whatsapp-scanner');
+
+        if (!scannerWrap.length || !scannerTrigger.length || !scannerPopup.length) {
+            return;
+        }
+
+        function closeScanner() {
+            scannerWrap.removeClass('is-open');
+            scannerTrigger.attr('aria-expanded', 'false');
+            scannerPopup.attr('aria-hidden', 'true');
+        }
+
+        scannerTrigger.on('click', function (event) {
+            event.preventDefault();
+            var isOpen = scannerWrap.hasClass('is-open');
+            if (isOpen) {
+                closeScanner();
+                return;
+            }
+
+            scannerWrap.addClass('is-open');
+            scannerTrigger.attr('aria-expanded', 'true');
+            scannerPopup.attr('aria-hidden', 'false');
+        });
+
+        $(document).on('click', function (event) {
+            if (!$(event.target).closest('.floating-scanner').length) {
+                closeScanner();
+            }
+        });
+
+        $(document).on('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeScanner();
+            }
+        });
+    });
+
+    /*--------------------------------------------------------------
+    21 Ajax Form
     --------------------------------------------------------------*/
     $(function() {
 

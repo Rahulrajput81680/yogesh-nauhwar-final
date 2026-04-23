@@ -19,7 +19,10 @@ if (is_module_enabled('blog') && has_permission('blog_view')) {
 
 // ── Gallery stats ─────────────────────────────────────────────────────────────
 if (is_module_enabled('gallery') && has_permission('gallery_view')) {
-  $total_gallery = count_records('gallery');
+  $total_gallery = count_records(
+    'gallery',
+    "display_section NOT IN ('our_work','our-work','media_coverage','media') OR display_section IS NULL"
+  );
 }
 
 // ── Hero stats ────────────────────────────────────────────────────────────────

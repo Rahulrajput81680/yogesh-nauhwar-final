@@ -67,14 +67,10 @@ define('MAIL_FROM_NAME', getenv('MAIL_FROM_NAME') ?: PROJECT_NAME);
 define('MAIL_FROM_ADDRESS', getenv('MAIL_FROM_ADDRESS') ?: 'vidhayakyogeshnauhwar@gmail.com');
 define('MAIL_CONTACT_RECIPIENT', getenv('MAIL_CONTACT_RECIPIENT') ?: MAIL_FROM_ADDRESS);
 define('MAIL_SMTP_HOST', getenv('MAIL_SMTP_HOST') ?: 'sandbox.smtp.mailtrap.io');
-// Port 587 + 'tls' (STARTTLS) — same combination Gmail uses. Requires OpenSSL (now enabled).
 define('MAIL_SMTP_PORT', (int) (getenv('MAIL_SMTP_PORT') ?: 2525));
 define('MAIL_SMTP_USER', getenv('MAIL_SMTP_USER') ?: '120b154f30d18f');
 define('MAIL_SMTP_PASS', getenv('MAIL_SMTP_PASS') ?: '793e5ec90f9768');
-// 'none' = no TLS — required for port 2525 (Mailtrap plain-text port, no OpenSSL needed).
-// When switching to Gmail: change to 'tls', port 587, and real Gmail credentials.
 define('MAIL_SMTP_ENCRYPTION', getenv('MAIL_SMTP_ENCRYPTION') ?: 'none');
-// Set to false once emails are confirmed working in Mailtrap.
 define('MAIL_SMTP_DEBUG', (bool) (getenv('MAIL_SMTP_DEBUG') ?: false));
 
 

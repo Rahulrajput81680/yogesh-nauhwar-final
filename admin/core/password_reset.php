@@ -367,16 +367,22 @@ function destroy_user_sessions($user_id)
 function send_password_reset_email($user, $reset_link, $expires_at)
 {
   $to = $user['email'];
+  if (!is_string($to) || !filter_var($to, FILTER_VALIDATE_EMAIL)) {
+    error_log('[PasswordReset] Invalid recipient email for reset message: ' . (string) $to);
+    return false;
+  }
+
   $subject = PROJECT_NAME . ' - Password Reset Instructions';
-  $expiryDateTime = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $expires_at, new DateTimeZone('UTC'));
+  $indiaTimeZone = new DateTimeZone('Asia/Kolkata');
+  $expiryDateTime = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $expires_at, $indiaTimeZone);
   if ($expiryDateTime instanceof DateTimeImmutable) {
-    $expiryTimeZone = new DateTimeZone('Asia/Kolkata');
-    $expiry_time = $expiryDateTime->setTimezone($expiryTimeZone)->format('F j, Y \a\t g:i A');
+    $expiry_time = $expiryDateTime->setTimezone($indiaTimeZone)->format('F j, Y \\a\\t g:i A') . ' IST';
   } else {
-    $expiry_time = date('F j, Y \a\t g:i A', strtotime($expires_at));
+    $expiry_time = date('F j, Y \\a\\t g:i A', strtotime($expires_at)) . ' IST';
   }
   $current_year = date('Y');
   $recipient_name = htmlspecialchars($user['full_name'] ?? $user['username'], ENT_QUOTES, 'UTF-8');
+  $recipient_name_raw = trim((string) ($user['full_name'] ?? $user['username'] ?? ''));
   $reset_link_safe = htmlspecialchars($reset_link, ENT_QUOTES, 'UTF-8');
   $project_name = htmlspecialchars(PROJECT_NAME, ENT_QUOTES, 'UTF-8');
 
@@ -443,6 +449,9 @@ HTML;
 
   // Send via send_email() which uses SMTP if configured
   $mail_sent = send_email($to, $subject, $message, $plain_message, [
+    'toName' => $recipient_name_raw !== '' ? $recipient_name_raw : $to,
+    'fromEmail' => defined('MAIL_FROM_ADDRESS') ? MAIL_FROM_ADDRESS : '',
+    'fromName' => defined('MAIL_FROM_NAME') ? MAIL_FROM_NAME : PROJECT_NAME,
     'debug' => defined('MAIL_SMTP_DEBUG') ? MAIL_SMTP_DEBUG : false,
   ]);
 

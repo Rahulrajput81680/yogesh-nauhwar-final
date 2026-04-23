@@ -15,7 +15,7 @@ require_once __DIR__ . '/../vendor/phpmailer/src/SMTP.php';
  * @param string $subject    Subject line
  * @param string $htmlBody   HTML body
  * @param string $plainBody  Optional plain-text body (auto-stripped from HTML if empty)
- * @param array  $options    Optional keys: debug (bool), replyToEmail (string), replyToName (string)
+ * @param array  $options    Optional keys: debug (bool), replyToEmail (string), replyToName (string), toName (string), fromEmail (string), fromName (string)
  * @return bool
  */
 function send_email(string $to, string $subject, string $htmlBody, string $plainBody = '', array $options = []): bool
@@ -47,11 +47,22 @@ function send_email(string $to, string $subject, string $htmlBody, string $plain
   }
 
   $fromAddress = defined('MAIL_FROM_ADDRESS') ? trim((string) MAIL_FROM_ADDRESS) : '';
+  $fromNameOverride = trim((string) ($options['fromName'] ?? ''));
+  if ($fromNameOverride !== '') {
+    $fromName = $fromNameOverride;
+  }
+
+  $fromAddressOverride = trim((string) ($options['fromEmail'] ?? ''));
+  if ($fromAddressOverride !== '') {
+    $fromAddress = $fromAddressOverride;
+  }
+
   if (!filter_var($fromAddress, FILTER_VALIDATE_EMAIL)) {
     error_log('send_email aborted: MAIL_FROM_ADDRESS is invalid [' . $fromAddress . ']');
     return false;
   }
 
+  $toName = trim((string) ($options['toName'] ?? ''));
   $replyToEmail = trim((string) ($options['replyToEmail'] ?? ''));
   $replyToName  = trim((string) ($options['replyToName']  ?? ''));
 
@@ -146,7 +157,7 @@ function send_email(string $to, string $subject, string $htmlBody, string $plain
     // --- Message ---
     $mail->isHTML(true);
     $mail->setFrom($fromAddress, $fromName, false);
-    $mail->addAddress($to);
+    $mail->addAddress($to, $toName !== '' ? $toName : $to);
     if ($replyToEmail !== '' && filter_var($replyToEmail, FILTER_VALIDATE_EMAIL)) {
       $mail->addReplyTo($replyToEmail, $replyToName !== '' ? $replyToName : $replyToEmail);
     }

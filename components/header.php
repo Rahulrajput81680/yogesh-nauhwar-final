@@ -37,6 +37,9 @@ if ($switchUrl === '') {
 	$switchUrl = '/';
 }
 $switchUrl .= '?' . http_build_query($query);
+
+$whatsAppCommunityUrl = 'https://wa.me/917456982962?text=' . rawurlencode('Hi, I want to join the WhatsApp community.');
+$whatsAppCommunityQr = 'https://quickchart.io/qr?size=210&text=' . rawurlencode($whatsAppCommunityUrl);
 ?>
 <!-- header-section start -->
 <header class="header-section-2">
@@ -187,6 +190,16 @@ $switchUrl .= '?' . http_build_query($query);
 <!-- off-canvas-menubar end -->
 
 <div class="floating-social-links" aria-label="Social links">
+	<div class="floating-scanner" aria-label="WhatsApp scanner">
+		<button type="button" class="floating-scanner-trigger" aria-expanded="false" aria-controls="floating-whatsapp-scanner" data-toggle-whatsapp-scanner="1">
+			<i class="fa-solid fa-qrcode"></i>
+		</button>
+		<div class="floating-scanner-popup" id="floating-whatsapp-scanner" aria-hidden="true">
+			<p>Scan to join WhatsApp community</p>
+			<img src="<?php echo frontend_escape($whatsAppCommunityQr); ?>" alt="WhatsApp community scanner" loading="lazy">
+			<a href="<?php echo frontend_escape($whatsAppCommunityUrl); ?>" target="_blank" rel="noopener noreferrer">Join Now</a>
+		</div>
+	</div>
 	<a href="https://www.facebook.com/ChaudharyYN/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
 		<i class="fab fa-facebook-f"></i>
 	</a>
@@ -196,6 +209,10 @@ $switchUrl .= '?' . http_build_query($query);
 	<a href="https://www.instagram.com/vidhayak_yogeshnauhwar/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
 		<i class="fab fa-instagram"></i>
 	</a>
+	<!-- <a href="https://en.wikipedia.org/wiki/Yogesh_Choudhary" target="_blank" rel="noopener noreferrer" aria-label="Wikipedia">
+		<i class="fab fa-wikipedia-w"></i>
+	</a> -->
+	
 	<!-- <a href="https://linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
 		<i class="fab fa-linkedin-in"></i>
 	</a> -->
