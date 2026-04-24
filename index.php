@@ -38,7 +38,61 @@ try {
 
 	<title><?php echo frontend_escape($contentText('home.meta.title')); ?></title>
 	<meta name="description" content="<?php echo frontend_escape($contentText('home.meta.description')); ?>">
+	<link rel="canonical" href="https://yogeshnauhwar.com/">
+	<link rel="preload" as="image" href="assets/img/home/hero/hero10.webp">
 	<?php include 'components/links.php'; ?>
+	<!-- Open Graph / meta tags -->
+<meta property="og:type"              content="website">
+<meta property="og:url"               content="https://yogeshnauhwar.com/">
+<meta property="og:title"             content="Yogesh Nauhwar - MLC Uttar Pradesh & RLD Leader Mathura">
+<meta property="og:description"       content="Chaudhary Yogesh Nauhwar — Member of the UP Legislative Council, Rashtriya Lok Dal (RLD). 17+ years serving farmers & rural communities of Mathura and Mant.">
+<meta property="og:image"             content="assets/img/logo/yogesh-nauhwar.webp">
+
+<!-- Twitter -->
+<meta property="twitter:card"         content="summary_large_image">
+<meta property="twitter:url"          content="https://yogeshnauhwar.com/">
+<meta property="twitter:title"        content="Yogesh Nauhwar - MLC Uttar Pradesh & RLD Leader Mathura">
+<meta property="twitter:description"  content="Chaudhary Yogesh Nauhwar — Member of the UP Legislative Council, Rashtriya Lok Dal (RLD). 17+ years serving farmers & rural communities of Mathura and Mant.">
+<meta property="twitter:image"        content="assets/img/logo/yogesh-nauhwar.webp">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": ["Person", "PoliticalCandidate"],
+  "@id": "https://yogeshnauhwar.com/",
+  "name": "Yogesh Nauhwar",
+  "alternateName": "Chaudhary Yogesh Nauhwar",
+  "url": "https://yogeshnauhwar.com/",
+  "image": "https://yogeshnauhwar.com/assets/img/logo/yogesh-nauhwar.webp",
+  "jobTitle": "Member of the Legislative Council (MLC) - Uttar Pradesh",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "1/100, Radha Puram State",
+    "addressLocality": "Mathura",
+    "addressRegion": "UP",
+    "addressCountry": "IN"
+  },
+  "areaServed": [
+    {
+      "@type": "Place",
+      "name": "Mant"
+    },
+    {
+      "@type": "City",
+      "name": "Mathura"
+    },
+    {
+      "@type": "State",
+      "name": "Uttar Pradesh"
+    }
+  ],
+  "sameAs": [
+    "https://www.facebook.com/yogeshnauhwar_rld",
+    "https://www.instagram.com/yogeshnauhwar_rld",
+    "https://www.rashtriyalokdal.org/"
+  ]
+}
+</script>
 </head>
 
 <body>

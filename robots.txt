@@ -1,0 +1,75 @@
+# ============================================================
+# robots.txt — yogeshnauhwar.com
+# Last updated: 2026-04-24
+# ============================================================
+
+# ─── ALLOW ALL MAJOR SEARCH ENGINE CRAWLERS ──────────────────
+User-agent: *
+Allow: /
+
+# ─── DISALLOW NON-PUBLIC / ADMIN AREAS ───────────────────────
+# Prevent crawling of any admin, config or upload management paths
+Disallow: /admin/
+Disallow: /admin.php
+Disallow: /wp-admin/
+Disallow: /cpanel/
+Disallow: /phpmyadmin/
+
+# ─── DISALLOW QUERY-ONLY PARAMETER DUPLICATES ────────────────
+# Prevent crawling of duplicate language-only parameter URLs
+# The canonical and hreflang tags handle the correct signal
+Disallow: /*?lang=*&*
+
+# ─── ALLOW LANGUAGE SWITCHER (explicit lang= URLs are OK) ────
+Allow: /*?lang=hi
+Allow: /*?lang=en
+
+# ─── DISALLOW PRIVATE / BACKEND DIRECTORIES ──────────────────
+Disallow: /includes/
+Disallow: /config/
+Disallow: /backup/
+Disallow: /tmp/
+Disallow: /logs/
+Disallow: /cache/
+Disallow: /.git/
+Disallow: /.env
+
+# ─── DISALLOW SCRIPT DIRECTORIES (not indexable content) ─────
+Disallow: /assets/scss/
+Disallow: /assets/js/vendor/
+Disallow: /node_modules/
+
+# ─── ALLOW CRITICAL ASSETS FOR RENDERING ─────────────────────
+Allow: /assets/img/
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /uploads/
+
+# ─── CRAWL-DELAY (optional; be gentle to shared hosting) ─────
+Crawl-delay: 5
+
+# ─── GOOGLEBOT SPECIFIC ──────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+
+# ─── BINGBOT SPECIFIC ────────────────────────────────────────
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 10
+
+# ─── BLOCK KNOWN BAD BOTS ─────────────────────────────────────
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# ─── SITEMAP DECLARATION ──────────────────────────────────────
+Sitemap: https://yogeshnauhwar.com/sitemap.xml

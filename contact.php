@@ -448,9 +448,10 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-	<title>Contact Yogesh Nauhwar — MLC UP | Reach RLD Office Mathura Uttar Pradesh</title>
+	<title>Contact Yogesh Nauhwar | MLC UP | Office in Mathura</title>
 	<meta name="description"
 		content="Contact Chaudhary Yogesh Nauhwar MLC for grievances, government scheme help, or party membership. Reach our Mathura office or connect via WhatsApp, Facebook, and Instagram.">
+	<link rel="canonical" href="https://yogeshnauhwar.com/contact.php">
 	<?php include 'components/links.php'; ?>
 </head>
 

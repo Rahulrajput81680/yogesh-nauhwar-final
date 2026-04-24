@@ -7,9 +7,10 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<title>Blogs — Yogesh Nauhwar MLC | Political News, Farmer Issues & Rural Development UP</title>
+	<title>Blog | Yogesh Nauhwar | Farmer Rights & UP Politics</title>
 	<meta name="description"
-		content="Read the latest blogs, news, and updates from Chaudhary Yogesh Nauhwar MLC — covering farmer rights, rural development, government schemes, political activities, and legislative updates from Uttar Pradesh.">
+		content="Read Chaudhary Yogesh Nauhwar's views on farmer welfare, rural development, Uttar Pradesh politics and social justice. Official blog of the RLD leader from Mathura.">
+	<link rel="canonical" href="https://yogeshnauhwar.com/blogs/index.php">	
 	<base href="../">
 	<?php include '../components/links.php'; ?>
 </head>

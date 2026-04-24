@@ -3,7 +3,7 @@
 	<div class="preloader">
 		<div class="preloader-logo-wrap">
 			<span class="preloader-ring" aria-hidden="true"></span>
-			<img src="assets/img/logo/yogesh-nauhwar.png" alt="Yogesh Nauhwar logo">
+			<img src="assets/img/logo/yogesh-nauhwar.webp" alt="Yogesh Nauhwar logo">
 		</div>
 	</div>
 </div>

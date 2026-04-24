@@ -5,9 +5,10 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>Our Work — Yogesh Nauhwar MLC | Development Works & Achievements Mant Mathura</title>
+	<title>Our Work & Achievements | Yogesh Nauhwar | Mathura, UP</title>
 	<meta name="description"
-		content="Explore the development works and achievements of Chaudhary Yogesh Nauhwar MLC — including ₹14.41 crore road projects, farmer welfare programs, youth skill development, and rural infrastructure works in Mant Mathura.">
+		content="Explore the development work, farmer support initiatives, and public welfare achievements of Chaudhary Yogesh Nauhwar in Mathura, Mant and rural Uttar Pradesh">
+	<link rel="canonical" href="https://yogeshnauhwar.com/our-work.php">
 	<?php include 'components/links.php'; ?>
 </head>
 

@@ -48,29 +48,15 @@ define('MIN_PASSWORD_LENGTH', 8);
 
 // ---------------------------------------------------------------------------
 // SMTP Configuration — currently using Mailtrap sandbox for testing
-// ---------------------------------------------------------------------------
-// Mailtrap credentials (sandbox.smtp.mailtrap.io)
-//   Port: 587 (STARTTLS) — use MAIL_SMTP_ENCRYPTION = 'tls'
-//   Port: 465 (SMTPS)   — use MAIL_SMTP_ENCRYPTION = 'ssl'
-//   Port: 2525 (plain)  — use MAIL_SMTP_ENCRYPTION = 'none'
-//
-// ⚠️  'ssl' (SMTPS) only works on port 465, NOT 587.
-//     We are using port 587, so encryption MUST be 'tls' (STARTTLS).
-//
-// To switch to real Gmail later:
-//   Host : smtp.gmail.com | Port: 587 | Encryption: tls
-//   User : your-gmail@gmail.com
-//   Pass : 16-char Google App Password (requires 2FA enabled)
-//   See  : https://myaccount.google.com/apppasswords
-// ---------------------------------------------------------------------------
+
 define('MAIL_FROM_NAME', getenv('MAIL_FROM_NAME') ?: PROJECT_NAME);
 define('MAIL_FROM_ADDRESS', getenv('MAIL_FROM_ADDRESS') ?: 'vidhayakyogeshnauhwar@gmail.com');
 define('MAIL_CONTACT_RECIPIENT', getenv('MAIL_CONTACT_RECIPIENT') ?: MAIL_FROM_ADDRESS);
-define('MAIL_SMTP_HOST', getenv('MAIL_SMTP_HOST') ?: 'sandbox.smtp.mailtrap.io');
-define('MAIL_SMTP_PORT', (int) (getenv('MAIL_SMTP_PORT') ?: 2525));
-define('MAIL_SMTP_USER', getenv('MAIL_SMTP_USER') ?: '120b154f30d18f');
-define('MAIL_SMTP_PASS', getenv('MAIL_SMTP_PASS') ?: '793e5ec90f9768');
-define('MAIL_SMTP_ENCRYPTION', getenv('MAIL_SMTP_ENCRYPTION') ?: 'none');
+define('MAIL_SMTP_HOST', getenv('MAIL_SMTP_HOST') ?: 'smtp.gmail.com');
+define('MAIL_SMTP_PORT', (int) (getenv('MAIL_SMTP_PORT') ?: 587));
+define('MAIL_SMTP_USER', getenv('MAIL_SMTP_USER') ?: 'vidhayakyogeshnauhwar@gmail.com');
+define('MAIL_SMTP_PASS', getenv('MAIL_SMTP_PASS') ?: 'lgqa xesz mjbw gvdo');
+define('MAIL_SMTP_ENCRYPTION', getenv('MAIL_SMTP_ENCRYPTION') ?: 'tls');
 define('MAIL_SMTP_DEBUG', (bool) (getenv('MAIL_SMTP_DEBUG') ?: false));
 
 

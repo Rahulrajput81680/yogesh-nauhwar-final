@@ -6,9 +6,9 @@
 	<!-- Required meta tags -->
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
-	<title>Yogesh Nauhwar - Media Coverage</title>
-
+	<title>Media Coverage | Yogesh Nauhwar in the News | RLD Mathura</title>
+	<meta name="description" content="Press coverage, news articles and media reports featuring Chaudhary Yogesh Nauhwar, MLC UP, on farmer rights, rural development and public welfare work in Mathura.">
+	<link rel="canonical" href="https://yogeshnauhwar.com/media-coverage.php">
 	<?php include 'components/links.php'; ?>
 </head>
 

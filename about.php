@@ -21,9 +21,11 @@ $contentList = static function (string $path) use ($lang): array {
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
-	<title><?php echo frontend_escape($contentText('about.meta.title')); ?></title>
-	<meta name="description" content="<?php echo frontend_escape($contentText('about.meta.description')); ?>">
-
+	<!-- <title><?php echo frontend_escape($contentText('about.meta.title')); ?></title>
+	<meta name="description" content="<?php echo frontend_escape($contentText('about.meta.description')); ?>"> -->
+	<title>About Yogesh Nauhwar | MLC UP | RLD Leader from Mathura</title>
+	<meta name="description" content="Know Chaudhary Yogesh Nauhwar's political journey — from contesting Mant in 2012 to becoming MLC (2024). 17+ years fighting for farmers & rural UP as an RLD leader.">
+	<link rel="canonical" href="https://yogeshnauhwar.com/about.php">
 	<?php include 'components/links.php'; ?>
 </head>
 

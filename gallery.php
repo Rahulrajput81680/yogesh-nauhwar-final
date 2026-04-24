@@ -5,9 +5,10 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>Gallery — Yogesh Nauhwar MLC | Events, Public Meetings & Development Work Photos</title>
+	<title>Gallery | Yogesh Nauhwar | RLD Events & Public Work</title>
 	<meta name="description"
-		content="Explore the official photo gallery of Chaudhary Yogesh Nauhwar MLC — featuring public meetings, farmer events, rallies, development works, cultural celebrations, and Jan Sampark activities across Mant and Mathura.">
+		content="Photo gallery of Chaudhary Yogesh Nauhwar's public events, rallies, farmer meetings, community programmes and development work across Mathura and Mant district.">
+	<link rel="canonical" href="https://yogeshnauhwar.com/gallery.php">
 	<?php include 'components/links.php'; ?>
 </head>
 

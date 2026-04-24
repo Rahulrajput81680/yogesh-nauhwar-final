@@ -5,9 +5,10 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<title>Events — Yogesh Nauhwar MLC | Jan Sampark, Rallies & Public Programs Mathura</title>
+	<title>Events & Public Programmes | Yogesh Nauhwar | RLD Mathura</title>
 	<meta name="description"
-		content="View all events, public meetings, rallies, cultural programs, and Jan Sampark activities of Chaudhary Yogesh Nauhwar MLC — RLD leader serving the people of Mant and Mathura, Uttar Pradesh.">
+		content="Stay updated with upcoming events, public meetings, grievance camps and development programmes of Chaudhary Yogesh Nauhwar, MLC UP, across Mathura and Mant region.">
+	<link rel="canonical" href="https://yogeshnauhwar.com/events.php">
 	<?php include 'components/links.php'; ?>
 </head>
 

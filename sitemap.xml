@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- ─── HOMEPAGE ─────────────────────────────────────── -->
+  <url>
+    <loc>https://yogeshnauhwar.com/</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yogeshnauhwar.com/"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://yogeshnauhwar.com/?lang=hi"/>
+    <image:image>
+      <image:loc>https://yogeshnauhwar.com/assets/img/authors/author-1.webp</image:loc>
+      <image:title>Chaudhary Yogesh Nauhwar — MLC Uttar Pradesh, RLD Leader Mathura</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://yogeshnauhwar.com/assets/img/logo/pagdi-logo.png</image:loc>
+      <image:title>Rashtriya Lok Dal — RLD Official Logo</image:title>
+    </image:image>
+  </url>
+
+  <!-- ─── ABOUT PAGE ────────────────────────────────────── -->
+  <url>
+    <loc>https://yogeshnauhwar.com/about.php</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yogeshnauhwar.com/about.php"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://yogeshnauhwar.com/about.php?lang=hi"/>
+  </url>
+
+  <!-- ─── OUR WORK ──────────────────────────────────────── -->
+  <url>
+    <loc>https://yogeshnauhwar.com/our-work.php</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yogeshnauhwar.com/our-work.php"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://yogeshnauhwar.com/our-work.php?lang=hi"/>
+  </url>
+
+  <!-- ─── EVENTS ────────────────────────────────────────── -->
+  <url>
+    <loc>https://yogeshnauhwar.com/events.php</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yogeshnauhwar.com/events.php"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://yogeshnauhwar.com/events.php?lang=hi"/>
+  </url>
+
+  <!-- ─── BLOGS INDEX ───────────────────────────────────── -->
+  <url>
+    <loc>https://yogeshnauhwar.com/blogs/index.php</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yogeshnauhwar.com/blogs/index.php"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://yogeshnauhwar.com/blogs/index.php?lang=hi"/>
+  </url>
+
+  <!-- ─── GALLERY ───────────────────────────────────────── -->
+  <url>
+    <loc>https://yogeshnauhwar.com/gallery.php</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yogeshnauhwar.com/gallery.php"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://yogeshnauhwar.com/gallery.php?lang=hi"/>
+  </url>
+
+  <!-- ─── MEDIA COVERAGE ────────────────────────────────── -->
+  <url>
+    <loc>https://yogeshnauhwar.com/media-coverage.php</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yogeshnauhwar.com/media-coverage.php"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://yogeshnauhwar.com/media-coverage.php?lang=hi"/>
+  </url>
+
+  <!-- ─── CONTACT ───────────────────────────────────────── -->
+  <url>
+    <loc>https://yogeshnauhwar.com/contact.php</loc>
+    <lastmod>2026-04-24</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://yogeshnauhwar.com/contact.php"/>
+    <xhtml:link rel="alternate" hreflang="hi" href="https://yogeshnauhwar.com/contact.php?lang=hi"/>
+  </url>
+
+  <!-- ─── LEGAL PAGES ───────────────────────────────────── -->
+  <url>
+    <loc>https://yogeshnauhwar.com/terms-and-conditions.php</loc>
+    <lastmod>2026-01-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+
+  <url>
+    <loc>https://yogeshnauhwar.com/privacy-policy.php</loc>
+    <lastmod>2026-01-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+
+</urlset>
