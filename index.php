@@ -36,8 +36,8 @@ try {
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-	<title><?php echo frontend_escape($contentText('home.meta.title')); ?></title>
-	<meta name="description" content="<?php echo frontend_escape($contentText('home.meta.description')); ?>">
+	<title>Yogesh Nauhwar | MLC Uttar Pradesh | RLD Leader Mathura & Mant</title>
+	<meta name="description" content="Chaudhary Yogesh Nauhwar — Member of the UP Legislative Council (MLC), Rashtriya Lok Dal (RLD). 17+ years serving farmers & rural communities of Mathura and Mant, UP.">
 	<link rel="canonical" href="https://yogeshnauhwar.com/">
 	<link rel="preload" as="image" href="assets/img/home/hero/hero10.webp">
 	<?php include 'components/links.php'; ?>
